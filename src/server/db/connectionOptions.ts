@@ -1,4 +1,4 @@
-import { User } from './entity/User';
+import { User, Review } from './entity';
 import { ConnectionOptions } from 'typeorm';
 
 export const DEFAULT_CONNECTION: ConnectionOptions = {
@@ -6,5 +6,5 @@ export const DEFAULT_CONNECTION: ConnectionOptions = {
   database: 'reviews-db.sqlite',
   synchronize: true,
   logging: true,
-  entities: [User],
+  entities: [User, Review],
 };

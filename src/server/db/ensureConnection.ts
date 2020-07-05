@@ -1,18 +1,10 @@
 // workaround for HMR + TypeORM
 // https://github.com/typeorm/typeorm/issues/6241#issuecomment-643690383
 import { Connection, getConnectionManager, ConnectionOptions } from 'typeorm';
-import { User } from './entity/User';
 import { DEFAULT_CONNECTION } from './connectionOptions';
 
 const options: Record<string, ConnectionOptions> = {
-  default: {
-    type: 'sqlite',
-    database: 'reviews-db.sqlite',
-    synchronize: true,
-    logging: true,
-    entities: [User],
-  },
-  con: DEFAULT_CONNECTION,
+  default: DEFAULT_CONNECTION,
 };
 
 function entitiesChanged(prevEntities: any[], newEntities: any[]): boolean {
