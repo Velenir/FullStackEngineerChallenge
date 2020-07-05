@@ -6,8 +6,14 @@ import {
   Field,
   Arg,
   Int,
+  UseMiddleware,
+  Ctx,
 } from 'type-graphql';
 import { User, Review } from '../entity';
+import { isAuth } from '../middlewares/isAuth';
+import { GQLContext } from 'server/types';
+import { isRole } from '../middlewares/isRole';
+import { USER_ROLE } from 'server/consts';
 
 @InputType()
 class AddReviewRequest {
@@ -30,6 +36,7 @@ class CompleteReview {
 @Resolver()
 export class ReviewResolver {
   @Query(() => [Review])
+  @UseMiddleware(isAuth, isRole(USER_ROLE.ADMIN))
   async reviews(): Promise<Review[]> {
     const reviews = await Review.find();
     console.log('reviews', reviews);
@@ -37,6 +44,7 @@ export class ReviewResolver {
   }
 
   @Mutation(() => [Review])
+  @UseMiddleware(isAuth, isRole(USER_ROLE.ADMIN))
   async requestReview(
     @Arg('newReview') newReview: AddReviewRequest
   ): Promise<Review[]> {
@@ -58,24 +66,26 @@ export class ReviewResolver {
   }
 
   @Mutation(() => Review)
+  @UseMiddleware(isAuth)
   async completeReview(
-    @Arg('review') completedReview: CompleteReview
+    @Arg('review') completedReview: CompleteReview,
+    @Ctx() ctx: GQLContext
   ): Promise<Review> {
     console.log('ReviewResolver::completeReview', completedReview);
 
     const { text, review_id } = completedReview;
 
-    // TODOD: get user from jwt/db
-    // const rv = await Review.update({id: review_id, reviewee: userId}, {text, completed: true});
+    const review = await Review.findOneOrFail(review_id);
 
-    const rv = await Review.findOneOrFail(review_id);
-    console.log('rv', rv);
+    if (review.reviewer.id !== ctx.payload?.userId) {
+      throw new Error("UserId doesn't match reviewer_id");
+    }
 
-    rv.text = text;
-    rv.completed = true;
+    review.text = text;
+    review.completed = true;
 
-    await rv.save();
+    await review.save();
 
-    return rv;
+    return review;
   }
 }

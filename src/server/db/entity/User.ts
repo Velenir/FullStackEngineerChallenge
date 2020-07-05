@@ -8,6 +8,7 @@ import {
 } from 'typeorm';
 import { ObjectType, Field, Int } from 'type-graphql';
 import { Length } from 'class-validator';
+import { USER_ROLE } from '../../consts';
 
 @ObjectType()
 @Entity('users')
@@ -36,6 +37,13 @@ export class User extends BaseEntity {
 
   @OneToMany(() => Review, (review) => review.reviewee, { cascade: true })
   feedbacks: Review[];
+
+  @Column('int', { default: 0 })
+  tokenVersion: number;
+
+  @Field(() => Int)
+  @Column('int', { default: USER_ROLE.EMPLOYEE })
+  role: USER_ROLE;
 }
 
 @ObjectType()
