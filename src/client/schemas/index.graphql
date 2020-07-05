@@ -1,0 +1,83 @@
+query Me {
+  me {
+    id
+    email
+    firstName
+    lastName
+    role
+  }
+}
+
+query Users {
+  users {
+    id, email, firstName, lastName, role
+    
+  }
+}
+
+mutation AddUser($newUser: AddUserRequest!) {
+  addUser (newUser: $newUser) {
+    id, email, firstName, lastName, role
+  }
+}
+
+mutation UpdateUser($updatedUser: UpdateUserRequest!) {
+  updateUser (updatedUser: $updatedUser) {
+    id, email, firstName, lastName, role
+  }
+}
+
+mutation DeleteUser($userId: Int!) {
+  deleteUser(userId: $userId) {
+    id, email, firstName, lastName, role,
+  }
+}
+
+query Review {
+  reviews {
+    id
+    reviewer {email id}
+    reviewee {email id}
+    text
+    completed
+  }
+}
+
+mutation RequestReview($newReview: AddReviewRequest!) {
+  requestReview(newReview: $newReview) {
+    id
+    reviewer {email id}
+    reviewee {email id}
+    text
+    completed
+  }
+}
+
+mutation CompleteReview($review: CompleteReview!) {
+  completeReview(review: $review) {
+    id
+    reviewer {email id}
+    reviewee {email id}
+    text
+    completed
+  }
+}
+
+
+
+mutation Login($email: String!, $password: String!){
+  login(email: $email, password: $password) {
+    accessToken
+    user {
+      id
+      email
+      role
+      firstName
+      lastName
+    }
+  }
+}
+
+mutation Logout {
+  logout
+}

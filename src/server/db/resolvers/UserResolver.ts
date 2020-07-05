@@ -169,7 +169,7 @@ export class UserResolver {
 
   @Mutation(() => [User])
   @UseMiddleware(isAuth, isRole(USER_ROLE.ADMIN))
-  async deleteUser(@Arg('user_id') userId: number): Promise<User[]> {
+  async deleteUser(@Arg('userId', () => Int) userId: number): Promise<User[]> {
     console.log('UserResolver::deleteUser', userId);
 
     await User.delete(userId);
