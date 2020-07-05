@@ -1,5 +1,13 @@
-import { Resolver, Query, Mutation, InputType, Field, Arg } from 'type-graphql';
-import { User } from '../entity/User';
+import {
+  Resolver,
+  Query,
+  Mutation,
+  InputType,
+  Field,
+  Arg,
+  Int,
+} from 'type-graphql';
+import { User, Review } from '../entity/User';
 
 @InputType()
 class AddUserRequest {
@@ -15,6 +23,23 @@ class AddUserRequest {
   @Field()
   password: string;
 }
+@InputType()
+class UpdateUserRequest {
+  @Field(() => Int)
+  user_id: number;
+
+  @Field({ nullable: true })
+  firstName?: string;
+
+  @Field({ nullable: true })
+  lastName?: string;
+
+  @Field({ nullable: true })
+  email?: string;
+
+  @Field({ nullable: true })
+  password?: string;
+}
 
 @Resolver()
 export class UserResolver {
@@ -29,6 +54,19 @@ export class UserResolver {
   }
 
   @Mutation(() => [User])
+  async updateUser(
+    @Arg('updatedUser') updatedUser: UpdateUserRequest
+  ): Promise<User[]> {
+    console.log('UserResolver::updateUser', updatedUser);
+
+    const { user_id, ...userData } = updatedUser;
+
+    await User.update(user_id, userData);
+
+    return User.find();
+  }
+
+  @Mutation(() => [User])
   async addUser(@Arg('newUser') newUser: AddUserRequest): Promise<User[]> {
     console.log('UserResolver::addUser', newUser);
 
@@ -39,6 +77,15 @@ export class UserResolver {
       ...newUser,
       password: hashedPassword,
     });
+
+    return User.find();
+  }
+
+  @Mutation(() => [User])
+  async deleteUser(@Arg('user_id') userId: number): Promise<User[]> {
+    console.log('UserResolver::deleteUser', userId);
+
+    await User.delete(userId);
 
     return User.find();
   }
