@@ -8,7 +8,7 @@ const isDevelopment = process.env.NODE_ENV === 'development';
 // or we'll get `can't import outside of module` error
 export const DEFAULT_CONNECTION: ConnectionOptions = {
   type: 'sqlite',
-  database: 'reviews-db.sqlite',
+  database: 'public/reviews-db.sqlite',
   synchronize: isDevelopment, // synchronize DB entities on HMR
   logging: isDevelopment, // log DB queries
   entities: [User, Review],
