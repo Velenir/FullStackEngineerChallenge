@@ -68,11 +68,14 @@ export class ReviewResolver {
     const { userId } = ctx.payload!;
 
     if (
-      // only allow to see reviews for this user
       (review.reviewee.id === userId && review.completed) || // where he was reviewed
       review.reviewer.id === userId // that he needs to/ already reviewed
     )
       return review;
+
+    const user = await User.findOne(userId);
+    // ADMIN can see everything
+    if (user?.role === USER_ROLE.ADMIN) return review;
 
     throw new Error('Access denied');
   }
