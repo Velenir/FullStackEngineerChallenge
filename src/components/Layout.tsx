@@ -11,7 +11,7 @@ const AdminAside = () => {
   return (
     <>
       <Link href="/admin/users">
-        <a>View users</a>
+        <a>View employees</a>
       </Link>
       <Link href="/admin/add_user">
         <a>Add an employee</a>
