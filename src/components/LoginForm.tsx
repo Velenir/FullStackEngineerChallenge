@@ -1,6 +1,7 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { ErrorMessage } from '@hookform/error-message';
+import { Form } from './Form';
 
 export interface LoginData {
   email: string;
@@ -15,10 +16,7 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onSubmit, children }) => {
   const { register, handleSubmit, errors } = useForm<LoginData>();
 
   return (
-    <form
-      onSubmit={handleSubmit(onSubmit)}
-      style={{ display: 'flex', flexDirection: 'column', width: 'fit-content' }}
-    >
+    <Form onSubmit={handleSubmit(onSubmit)}>
       <input
         type="email"
         name="email"
@@ -38,6 +36,6 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onSubmit, children }) => {
       <ErrorMessage name="password" errors={errors} />
       <button type="submit">Submit</button>
       {children}
-    </form>
+    </Form>
   );
 };

@@ -1,6 +1,7 @@
 import React, { useMemo } from 'react';
 import { useForm } from 'react-hook-form';
 import { useUsersQuery } from 'generated/graphql';
+import { Form } from './Form';
 
 export interface RequestReviewData {
   reviewer_id: string;
@@ -43,10 +44,7 @@ export const RequestReviewForm: React.FC<RequestReviewFormProps> = ({
   console.log('reviewers', reviewers);
 
   return (
-    <form
-      onSubmit={handleSubmit(onSubmit)}
-      style={{ display: 'flex', flexDirection: 'column', width: 'fit-content' }}
-    >
+    <Form onSubmit={handleSubmit(onSubmit)}>
       <label>
         <span>Reviewee: </span>
         <select name="reviewee_id" ref={register}>
@@ -69,6 +67,6 @@ export const RequestReviewForm: React.FC<RequestReviewFormProps> = ({
       </label>
       <button type="submit">Submit</button>
       {children}
-    </form>
+    </Form>
   );
 };

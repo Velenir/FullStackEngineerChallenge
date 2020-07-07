@@ -22,9 +22,6 @@ const UsersPage = () => {
         prefix="/admin"
       />
       <p>
-        <Link href="/">
-          <a>Go home</a>
-        </Link>
         <Link href="/admin/add_user">
           <a>Add an employee</a>
         </Link>
@@ -32,6 +29,11 @@ const UsersPage = () => {
           <a>Request a review</a>
         </Link>
       </p>
+      <style jsx>{`
+        p > a {
+          padding: 1em;
+        }
+      `}</style>
     </Layout>
   );
 };

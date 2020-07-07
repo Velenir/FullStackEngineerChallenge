@@ -1,4 +1,3 @@
-import Link from 'next/link';
 import Layout from '../components/Layout';
 import { useLoginMutation, MeQuery, MeDocument } from '../generated/graphql';
 import { LoginForm, LoginData } from '../components/LoginForm';
@@ -6,7 +5,7 @@ import { setAccessToken } from 'client/utils/accessToken';
 import { useRouter } from 'next/router';
 
 const Login = () => {
-  const [loginUser, { data, loading, error }] = useLoginMutation();
+  const [loginUser, { error }] = useLoginMutation();
 
   const router = useRouter();
 
@@ -38,11 +37,6 @@ const Login = () => {
     <Layout title="Login">
       <h1>Login</h1>
       <p>This is the Login page</p>
-      <p>
-        <Link href="/">
-          <a>Go home</a>
-        </Link>
-      </p>
       <div>
         <LoginForm onSubmit={onSubmit}>
           {error && <p>{error.message}</p>}

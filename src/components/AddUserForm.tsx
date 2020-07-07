@@ -1,6 +1,7 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { ErrorMessage } from '@hookform/error-message';
+import { Form } from './Form';
 
 export interface AddUserData {
   email: string;
@@ -26,10 +27,7 @@ export const AddOrEditUserForm: React.FC<AddUserFormProps> = ({
   });
 
   return (
-    <form
-      onSubmit={handleSubmit(onSubmit)}
-      style={{ display: 'flex', flexDirection: 'column', width: 'fit-content' }}
-    >
+    <Form onSubmit={handleSubmit(onSubmit)}>
       <input
         type="email"
         name="email"
@@ -63,6 +61,6 @@ export const AddOrEditUserForm: React.FC<AddUserFormProps> = ({
       <ErrorMessage name="password" errors={errors} />
       <button type="submit">Submit</button>
       {children}
-    </form>
+    </Form>
   );
 };

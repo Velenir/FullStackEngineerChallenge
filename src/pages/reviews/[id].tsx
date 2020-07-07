@@ -55,7 +55,7 @@ const ReviewDetailsPage = () => {
       <div>
         <Review review={review} />
         {!review.completed && (
-          <SubmitReview reviewId={reviewId} onSubmit={onCompleteReview}>
+          <SubmitReview onSubmit={onCompleteReview}>
             {gqlDeleteError && <p>{gqlDeleteError.message}</p>}
           </SubmitReview>
         )}

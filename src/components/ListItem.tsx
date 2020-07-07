@@ -6,7 +6,7 @@ import { UsersQuery, ReviewQuery } from 'generated/graphql';
 
 type UserProps = {
   item: DataTypeFromQuery<UsersQuery['users']>[0];
-  prefix?: string
+  prefix?: string;
 };
 
 export const UserListItem = ({ item, prefix = '' }: UserProps) => (
@@ -19,15 +19,14 @@ export const UserListItem = ({ item, prefix = '' }: UserProps) => (
 
 type ReviewProps = {
   item: DataTypeFromQuery<ReviewQuery['reviews']>[0];
-  prefix?: string
+  prefix?: string;
 };
 
 export const ReviewListItem = ({ item, prefix = '' }: ReviewProps) => (
   <Link href={`${prefix}/reviews/[id]`} as={`${prefix}/reviews/${item.id}`}>
     <a>
-      Review of {item.reviewee.email} by {item.reviewer.email}
+      Review of {item.reviewee.firstName} {item.reviewee.lastName} by{' '}
+      {item.reviewer.firstName} {item.reviewer.lastName}
     </a>
   </Link>
 );
-
-

@@ -22,20 +22,27 @@ export const Profile: React.FC<ProfileProps> = ({ user }) => {
       <h3>Profile</h3>
       <div>
         <label>
-          <span>Name:</span>
+          <strong>Name: </strong>
           <span>
             {user.firstName} {user.lastName}
           </span>
         </label>
         <label>
-          <span>Email:</span>
+          <strong>Email: </strong>
           <span>{user.email}</span>
         </label>
         <label>
-          <span>Role:</span>
+          <strong>Role: </strong>
           <span>{displayRole(user.role)}</span>
         </label>
       </div>
+      <style jsx>{`
+        div {
+          display: flex;
+          flex-direction: column;
+          font-size: 2em;
+        }
+      `}</style>
     </>
   );
 };

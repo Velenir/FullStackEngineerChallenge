@@ -12,23 +12,34 @@ export const Review: React.FC<ReviewProps> = ({ review }) => {
       <h3>Review</h3>
       <div>
         <label>
-          <span>Reviewee: </span>
+          <strong>Reviewee: </strong>
           <span>
             {reviewee.firstName} {reviewee.lastName}
           </span>
         </label>
         <label>
-          <span>Reviewer: </span>
+          <strong>Reviewer: </strong>
           <span>
             {reviewer.firstName} {reviewer.lastName}
           </span>
         </label>
-        <p>{text}</p>
+        {text && <p>{text}</p>}
         <label>
-          <span>Completed: </span>
+          <strong>Completed: </strong>
           <span>{completed ? 'YES' : 'NO'}</span>
         </label>
       </div>
+      <style jsx>{`
+        div {
+          display: flex;
+          flex-direction: column;
+        }
+
+        p {
+          padding: 1em;
+          background-color: aqua;
+        }
+      `}</style>
     </>
   );
 };

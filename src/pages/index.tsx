@@ -1,47 +1,9 @@
-import Link from 'next/link';
 import Layout from '../components/Layout';
-// import { useUsersQuery } from '../generated/graphql'
 
 export default function Index() {
-  // const {data, error, loading } = useUsersQuery()
-
-  // if (error) return <div>Failed to load</div>
-  // if (loading || !data) return <div>Loading...</div>
-
-  // const { users } = data
-
   return (
     <Layout title="Home | Next.js + TypeScript Example">
-      <h1>Hello Next.js 👋</h1>
-      <p>
-        <Link href="/about">
-          <a>About</a>
-        </Link>
-        <Link href="/login">
-          <a>Login</a>
-        </Link>
-        <Link href="/register">
-          <a>Register</a>
-        </Link>
-      </p>
-      <div>
-        {/* {users.map((user, i) => (
-          <div key={i}>{user.email}</div>
-        ))} */}
-      </div>
+      <h1>Performance Reviews project</h1>
     </Layout>
   );
 }
-
-const IndexPage = () => (
-  <Layout title="Home | Next.js + TypeScript Example">
-    <h1>Hello Next.js 👋</h1>
-    <p>
-      <Link href="/about">
-        <a>About</a>
-      </Link>
-    </p>
-  </Layout>
-);
-
-// export default IndexPage

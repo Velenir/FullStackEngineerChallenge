@@ -1,18 +1,15 @@
-import Link from 'next/link';
 import Layout from 'components/Layout';
 import List from 'components/List';
-import { useMyReviewsQuery, MyReviewsQuery } from 'generated/graphql';
+import { useMyReviewsQuery } from 'generated/graphql';
 import { ReviewListItem } from 'components/ListItem';
 import { useAuth } from 'client/utils/useAuth';
 import { useMemo } from 'react';
-import { DataTypeFromQuery } from 'client/types';
-
-type reviewType = DataTypeFromQuery<MyReviewsQuery['myReviews']>[0];
+import { ReviewType } from 'client/types';
 
 interface ReviewsBatch {
-  reviewsOfMe: reviewType[];
-  myCompletedReviews: reviewType[];
-  myPendingReviews: reviewType[];
+  reviewsOfMe: ReviewType[];
+  myCompletedReviews: ReviewType[];
+  myPendingReviews: ReviewType[];
 }
 
 const ReviewsPage = () => {
@@ -57,18 +54,15 @@ const ReviewsPage = () => {
 
   return (
     <Layout title="Users List">
-      <h1>Reviews</h1>
-      <h4>Pending reviews</h4>
-      <List items={myPendingReviews} itemComponent={ReviewListItem} />
-      <h4>Completed reviews</h4>
-      <List items={myCompletedReviews} itemComponent={ReviewListItem} />
-      <h4>Completed reviews of me</h4>
-      <List items={reviewsOfMe} itemComponent={ReviewListItem} />
-      <p>
-        <Link href="/">
-          <a>Go home</a>
-        </Link>
-      </p>
+      <div>
+        <h1>Reviews</h1>
+        <h4>Pending reviews</h4>
+        <List items={myPendingReviews} itemComponent={ReviewListItem} />
+        <h4>Completed reviews</h4>
+        <List items={myCompletedReviews} itemComponent={ReviewListItem} />
+        <h4>Completed reviews of me</h4>
+        <List items={reviewsOfMe} itemComponent={ReviewListItem} />
+      </div>
     </Layout>
   );
 };

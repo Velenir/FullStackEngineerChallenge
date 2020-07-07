@@ -10,8 +10,6 @@ const ProfilePage = () => {
 
   const { me } = data;
 
-  // const isAdmin = me.role === USER_ROLE.ADMIN
-
   return (
     <Layout title="Profile">
       <div>

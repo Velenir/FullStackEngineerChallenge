@@ -32,6 +32,13 @@ export default function App({ Component, pageProps }: AppProps) {
   return (
     <ApolloProvider client={apolloClient}>
       <Component {...pageProps} />
+      <style global jsx>{`
+        *,
+        ::after,
+        ::before {
+          box-sizing: border-box;
+        }
+      `}</style>
     </ApolloProvider>
   );
 }

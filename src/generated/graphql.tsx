@@ -23,11 +23,9 @@ export type Query = {
   review?: Maybe<Review>;
 };
 
-
 export type QueryUserArgs = {
   userId: Scalars['Int'];
 };
-
 
 export type QueryReviewArgs = {
   reviewId: Scalars['Int'];
@@ -64,42 +62,34 @@ export type Mutation = {
   completeReview: Array<Review>;
 };
 
-
 export type MutationRevokeRefreshTokensForUserArgs = {
   userId: Scalars['Int'];
 };
-
 
 export type MutationLoginArgs = {
   password: Scalars['String'];
   email: Scalars['String'];
 };
 
-
 export type MutationUpdateUserArgs = {
   updatedUser: UpdateUserRequest;
 };
-
 
 export type MutationAddUserArgs = {
   newUser: AddUserRequest;
 };
 
-
 export type MutationDeleteUserArgs = {
   userId: Scalars['Int'];
 };
-
 
 export type MutationDeleteReviewArgs = {
   reviewId: Scalars['Int'];
 };
 
-
 export type MutationRequestReviewArgs = {
   newReview: AddReviewRequest;
 };
-
 
 export type MutationCompleteReviewArgs = {
   review: CompleteReview;
@@ -136,234 +126,225 @@ export type CompleteReview = {
   review_id: Scalars['Int'];
 };
 
-export type MeQueryVariables = Exact<{ [key: string]: never; }>;
+export type MeQueryVariables = Exact<{ [key: string]: never }>;
 
+export type MeQuery = { __typename?: 'Query' } & {
+  me?: Maybe<
+    { __typename?: 'User' } & Pick<
+      User,
+      'id' | 'email' | 'firstName' | 'lastName' | 'role'
+    >
+  >;
+};
 
-export type MeQuery = (
-  { __typename?: 'Query' }
-  & { me?: Maybe<(
-    { __typename?: 'User' }
-    & Pick<User, 'id' | 'email' | 'firstName' | 'lastName' | 'role'>
-  )> }
-);
+export type UsersQueryVariables = Exact<{ [key: string]: never }>;
 
-export type UsersQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type UsersQuery = (
-  { __typename?: 'Query' }
-  & { users: Array<(
-    { __typename?: 'User' }
-    & Pick<User, 'id' | 'email' | 'firstName' | 'lastName' | 'role'>
-  )> }
-);
+export type UsersQuery = { __typename?: 'Query' } & {
+  users: Array<
+    { __typename?: 'User' } & Pick<
+      User,
+      'id' | 'email' | 'firstName' | 'lastName' | 'role'
+    >
+  >;
+};
 
 export type OneUserQueryVariables = Exact<{
   userId: Scalars['Int'];
 }>;
 
-
-export type OneUserQuery = (
-  { __typename?: 'Query' }
-  & { user?: Maybe<(
-    { __typename?: 'User' }
-    & Pick<User, 'id' | 'email' | 'firstName' | 'lastName' | 'role'>
-  )> }
-);
+export type OneUserQuery = { __typename?: 'Query' } & {
+  user?: Maybe<
+    { __typename?: 'User' } & Pick<
+      User,
+      'id' | 'email' | 'firstName' | 'lastName' | 'role'
+    >
+  >;
+};
 
 export type AddUserMutationVariables = Exact<{
   newUser: AddUserRequest;
 }>;
 
-
-export type AddUserMutation = (
-  { __typename?: 'Mutation' }
-  & { addUser: Array<(
-    { __typename?: 'User' }
-    & Pick<User, 'id' | 'email' | 'firstName' | 'lastName' | 'role'>
-  )> }
-);
+export type AddUserMutation = { __typename?: 'Mutation' } & {
+  addUser: Array<
+    { __typename?: 'User' } & Pick<
+      User,
+      'id' | 'email' | 'firstName' | 'lastName' | 'role'
+    >
+  >;
+};
 
 export type UpdateUserMutationVariables = Exact<{
   updatedUser: UpdateUserRequest;
 }>;
 
-
-export type UpdateUserMutation = (
-  { __typename?: 'Mutation' }
-  & { updateUser: Array<(
-    { __typename?: 'User' }
-    & Pick<User, 'id' | 'email' | 'firstName' | 'lastName' | 'role'>
-  )> }
-);
+export type UpdateUserMutation = { __typename?: 'Mutation' } & {
+  updateUser: Array<
+    { __typename?: 'User' } & Pick<
+      User,
+      'id' | 'email' | 'firstName' | 'lastName' | 'role'
+    >
+  >;
+};
 
 export type DeleteUserMutationVariables = Exact<{
   userId: Scalars['Int'];
 }>;
 
+export type DeleteUserMutation = { __typename?: 'Mutation' } & {
+  deleteUser: Array<
+    { __typename?: 'User' } & Pick<
+      User,
+      'id' | 'email' | 'firstName' | 'lastName' | 'role'
+    >
+  >;
+};
 
-export type DeleteUserMutation = (
-  { __typename?: 'Mutation' }
-  & { deleteUser: Array<(
-    { __typename?: 'User' }
-    & Pick<User, 'id' | 'email' | 'firstName' | 'lastName' | 'role'>
-  )> }
-);
+export type ReviewQueryVariables = Exact<{ [key: string]: never }>;
 
-export type ReviewQueryVariables = Exact<{ [key: string]: never; }>;
+export type ReviewQuery = { __typename?: 'Query' } & {
+  reviews: Array<
+    { __typename?: 'Review' } & Pick<Review, 'id' | 'text' | 'completed'> & {
+        reviewer: { __typename?: 'User' } & Pick<
+          User,
+          'email' | 'id' | 'firstName' | 'lastName' | 'role'
+        >;
+        reviewee: { __typename?: 'User' } & Pick<
+          User,
+          'email' | 'id' | 'firstName' | 'lastName' | 'role'
+        >;
+      }
+  >;
+};
 
+export type MyReviewsQueryVariables = Exact<{ [key: string]: never }>;
 
-export type ReviewQuery = (
-  { __typename?: 'Query' }
-  & { reviews: Array<(
-    { __typename?: 'Review' }
-    & Pick<Review, 'id' | 'text' | 'completed'>
-    & { reviewer: (
-      { __typename?: 'User' }
-      & Pick<User, 'email' | 'id' | 'firstName' | 'lastName' | 'role'>
-    ), reviewee: (
-      { __typename?: 'User' }
-      & Pick<User, 'email' | 'id' | 'firstName' | 'lastName' | 'role'>
-    ) }
-  )> }
-);
-
-export type MyReviewsQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type MyReviewsQuery = (
-  { __typename?: 'Query' }
-  & { myReviews: Array<(
-    { __typename?: 'Review' }
-    & Pick<Review, 'id' | 'text' | 'completed'>
-    & { reviewer: (
-      { __typename?: 'User' }
-      & Pick<User, 'email' | 'id' | 'firstName' | 'lastName' | 'role'>
-    ), reviewee: (
-      { __typename?: 'User' }
-      & Pick<User, 'email' | 'id' | 'firstName' | 'lastName' | 'role'>
-    ) }
-  )> }
-);
+export type MyReviewsQuery = { __typename?: 'Query' } & {
+  myReviews: Array<
+    { __typename?: 'Review' } & Pick<Review, 'id' | 'text' | 'completed'> & {
+        reviewer: { __typename?: 'User' } & Pick<
+          User,
+          'email' | 'id' | 'firstName' | 'lastName' | 'role'
+        >;
+        reviewee: { __typename?: 'User' } & Pick<
+          User,
+          'email' | 'id' | 'firstName' | 'lastName' | 'role'
+        >;
+      }
+  >;
+};
 
 export type OneReviewQueryVariables = Exact<{
   reviewId: Scalars['Int'];
 }>;
 
-
-export type OneReviewQuery = (
-  { __typename?: 'Query' }
-  & { review?: Maybe<(
-    { __typename?: 'Review' }
-    & Pick<Review, 'id' | 'text' | 'completed'>
-    & { reviewer: (
-      { __typename?: 'User' }
-      & Pick<User, 'email' | 'id' | 'firstName' | 'lastName' | 'role'>
-    ), reviewee: (
-      { __typename?: 'User' }
-      & Pick<User, 'email' | 'id' | 'firstName' | 'lastName' | 'role'>
-    ) }
-  )> }
-);
+export type OneReviewQuery = { __typename?: 'Query' } & {
+  review?: Maybe<
+    { __typename?: 'Review' } & Pick<Review, 'id' | 'text' | 'completed'> & {
+        reviewer: { __typename?: 'User' } & Pick<
+          User,
+          'email' | 'id' | 'firstName' | 'lastName' | 'role'
+        >;
+        reviewee: { __typename?: 'User' } & Pick<
+          User,
+          'email' | 'id' | 'firstName' | 'lastName' | 'role'
+        >;
+      }
+  >;
+};
 
 export type DeleteReviewMutationVariables = Exact<{
   reviewId: Scalars['Int'];
 }>;
 
-
-export type DeleteReviewMutation = (
-  { __typename?: 'Mutation' }
-  & { deleteReview: Array<(
-    { __typename?: 'Review' }
-    & Pick<Review, 'id' | 'text' | 'completed'>
-    & { reviewer: (
-      { __typename?: 'User' }
-      & Pick<User, 'email' | 'id' | 'firstName' | 'lastName' | 'role'>
-    ), reviewee: (
-      { __typename?: 'User' }
-      & Pick<User, 'email' | 'id' | 'firstName' | 'lastName' | 'role'>
-    ) }
-  )> }
-);
+export type DeleteReviewMutation = { __typename?: 'Mutation' } & {
+  deleteReview: Array<
+    { __typename?: 'Review' } & Pick<Review, 'id' | 'text' | 'completed'> & {
+        reviewer: { __typename?: 'User' } & Pick<
+          User,
+          'email' | 'id' | 'firstName' | 'lastName' | 'role'
+        >;
+        reviewee: { __typename?: 'User' } & Pick<
+          User,
+          'email' | 'id' | 'firstName' | 'lastName' | 'role'
+        >;
+      }
+  >;
+};
 
 export type RequestReviewMutationVariables = Exact<{
   newReview: AddReviewRequest;
 }>;
 
-
-export type RequestReviewMutation = (
-  { __typename?: 'Mutation' }
-  & { requestReview: Array<(
-    { __typename?: 'Review' }
-    & Pick<Review, 'id' | 'text' | 'completed'>
-    & { reviewer: (
-      { __typename?: 'User' }
-      & Pick<User, 'email' | 'id' | 'firstName' | 'lastName' | 'role'>
-    ), reviewee: (
-      { __typename?: 'User' }
-      & Pick<User, 'email' | 'id' | 'firstName' | 'lastName' | 'role'>
-    ) }
-  )> }
-);
+export type RequestReviewMutation = { __typename?: 'Mutation' } & {
+  requestReview: Array<
+    { __typename?: 'Review' } & Pick<Review, 'id' | 'text' | 'completed'> & {
+        reviewer: { __typename?: 'User' } & Pick<
+          User,
+          'email' | 'id' | 'firstName' | 'lastName' | 'role'
+        >;
+        reviewee: { __typename?: 'User' } & Pick<
+          User,
+          'email' | 'id' | 'firstName' | 'lastName' | 'role'
+        >;
+      }
+  >;
+};
 
 export type CompleteReviewMutationVariables = Exact<{
   review: CompleteReview;
 }>;
 
-
-export type CompleteReviewMutation = (
-  { __typename?: 'Mutation' }
-  & { completeReview: Array<(
-    { __typename?: 'Review' }
-    & Pick<Review, 'id' | 'text' | 'completed'>
-    & { reviewer: (
-      { __typename?: 'User' }
-      & Pick<User, 'email' | 'id' | 'firstName' | 'lastName' | 'role'>
-    ), reviewee: (
-      { __typename?: 'User' }
-      & Pick<User, 'email' | 'id' | 'firstName' | 'lastName' | 'role'>
-    ) }
-  )> }
-);
+export type CompleteReviewMutation = { __typename?: 'Mutation' } & {
+  completeReview: Array<
+    { __typename?: 'Review' } & Pick<Review, 'id' | 'text' | 'completed'> & {
+        reviewer: { __typename?: 'User' } & Pick<
+          User,
+          'email' | 'id' | 'firstName' | 'lastName' | 'role'
+        >;
+        reviewee: { __typename?: 'User' } & Pick<
+          User,
+          'email' | 'id' | 'firstName' | 'lastName' | 'role'
+        >;
+      }
+  >;
+};
 
 export type LoginMutationVariables = Exact<{
   email: Scalars['String'];
   password: Scalars['String'];
 }>;
 
+export type LoginMutation = { __typename?: 'Mutation' } & {
+  login: { __typename?: 'LoginResponse' } & Pick<
+    LoginResponse,
+    'accessToken'
+  > & {
+      user: { __typename?: 'User' } & Pick<
+        User,
+        'id' | 'email' | 'role' | 'firstName' | 'lastName'
+      >;
+    };
+};
 
-export type LoginMutation = (
-  { __typename?: 'Mutation' }
-  & { login: (
-    { __typename?: 'LoginResponse' }
-    & Pick<LoginResponse, 'accessToken'>
-    & { user: (
-      { __typename?: 'User' }
-      & Pick<User, 'id' | 'email' | 'role' | 'firstName' | 'lastName'>
-    ) }
-  ) }
-);
+export type LogoutMutationVariables = Exact<{ [key: string]: never }>;
 
-export type LogoutMutationVariables = Exact<{ [key: string]: never; }>;
-
-
-export type LogoutMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'logout'>
-);
-
+export type LogoutMutation = { __typename?: 'Mutation' } & Pick<
+  Mutation,
+  'logout'
+>;
 
 export const MeDocument = gql`
-    query Me {
-  me {
-    id
-    email
-    firstName
-    lastName
-    role
+  query Me {
+    me {
+      id
+      email
+      firstName
+      lastName
+      role
+    }
   }
-}
-    `;
+`;
 
 /**
  * __useMeQuery__
@@ -380,26 +361,39 @@ export const MeDocument = gql`
  *   },
  * });
  */
-export function useMeQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<MeQuery, MeQueryVariables>) {
-        return ApolloReactHooks.useQuery<MeQuery, MeQueryVariables>(MeDocument, baseOptions);
-      }
-export function useMeLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<MeQuery, MeQueryVariables>) {
-          return ApolloReactHooks.useLazyQuery<MeQuery, MeQueryVariables>(MeDocument, baseOptions);
-        }
+export function useMeQuery(
+  baseOptions?: ApolloReactHooks.QueryHookOptions<MeQuery, MeQueryVariables>
+) {
+  return ApolloReactHooks.useQuery<MeQuery, MeQueryVariables>(
+    MeDocument,
+    baseOptions
+  );
+}
+export function useMeLazyQuery(
+  baseOptions?: ApolloReactHooks.LazyQueryHookOptions<MeQuery, MeQueryVariables>
+) {
+  return ApolloReactHooks.useLazyQuery<MeQuery, MeQueryVariables>(
+    MeDocument,
+    baseOptions
+  );
+}
 export type MeQueryHookResult = ReturnType<typeof useMeQuery>;
 export type MeLazyQueryHookResult = ReturnType<typeof useMeLazyQuery>;
-export type MeQueryResult = ApolloReactCommon.QueryResult<MeQuery, MeQueryVariables>;
+export type MeQueryResult = ApolloReactCommon.QueryResult<
+  MeQuery,
+  MeQueryVariables
+>;
 export const UsersDocument = gql`
-    query Users {
-  users {
-    id
-    email
-    firstName
-    lastName
-    role
+  query Users {
+    users {
+      id
+      email
+      firstName
+      lastName
+      role
+    }
   }
-}
-    `;
+`;
 
 /**
  * __useUsersQuery__
@@ -416,26 +410,45 @@ export const UsersDocument = gql`
  *   },
  * });
  */
-export function useUsersQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<UsersQuery, UsersQueryVariables>) {
-        return ApolloReactHooks.useQuery<UsersQuery, UsersQueryVariables>(UsersDocument, baseOptions);
-      }
-export function useUsersLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<UsersQuery, UsersQueryVariables>) {
-          return ApolloReactHooks.useLazyQuery<UsersQuery, UsersQueryVariables>(UsersDocument, baseOptions);
-        }
+export function useUsersQuery(
+  baseOptions?: ApolloReactHooks.QueryHookOptions<
+    UsersQuery,
+    UsersQueryVariables
+  >
+) {
+  return ApolloReactHooks.useQuery<UsersQuery, UsersQueryVariables>(
+    UsersDocument,
+    baseOptions
+  );
+}
+export function useUsersLazyQuery(
+  baseOptions?: ApolloReactHooks.LazyQueryHookOptions<
+    UsersQuery,
+    UsersQueryVariables
+  >
+) {
+  return ApolloReactHooks.useLazyQuery<UsersQuery, UsersQueryVariables>(
+    UsersDocument,
+    baseOptions
+  );
+}
 export type UsersQueryHookResult = ReturnType<typeof useUsersQuery>;
 export type UsersLazyQueryHookResult = ReturnType<typeof useUsersLazyQuery>;
-export type UsersQueryResult = ApolloReactCommon.QueryResult<UsersQuery, UsersQueryVariables>;
+export type UsersQueryResult = ApolloReactCommon.QueryResult<
+  UsersQuery,
+  UsersQueryVariables
+>;
 export const OneUserDocument = gql`
-    query OneUser($userId: Int!) {
-  user(userId: $userId) {
-    id
-    email
-    firstName
-    lastName
-    role
+  query OneUser($userId: Int!) {
+    user(userId: $userId) {
+      id
+      email
+      firstName
+      lastName
+      role
+    }
   }
-}
-    `;
+`;
 
 /**
  * __useOneUserQuery__
@@ -453,27 +466,49 @@ export const OneUserDocument = gql`
  *   },
  * });
  */
-export function useOneUserQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<OneUserQuery, OneUserQueryVariables>) {
-        return ApolloReactHooks.useQuery<OneUserQuery, OneUserQueryVariables>(OneUserDocument, baseOptions);
-      }
-export function useOneUserLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<OneUserQuery, OneUserQueryVariables>) {
-          return ApolloReactHooks.useLazyQuery<OneUserQuery, OneUserQueryVariables>(OneUserDocument, baseOptions);
-        }
+export function useOneUserQuery(
+  baseOptions?: ApolloReactHooks.QueryHookOptions<
+    OneUserQuery,
+    OneUserQueryVariables
+  >
+) {
+  return ApolloReactHooks.useQuery<OneUserQuery, OneUserQueryVariables>(
+    OneUserDocument,
+    baseOptions
+  );
+}
+export function useOneUserLazyQuery(
+  baseOptions?: ApolloReactHooks.LazyQueryHookOptions<
+    OneUserQuery,
+    OneUserQueryVariables
+  >
+) {
+  return ApolloReactHooks.useLazyQuery<OneUserQuery, OneUserQueryVariables>(
+    OneUserDocument,
+    baseOptions
+  );
+}
 export type OneUserQueryHookResult = ReturnType<typeof useOneUserQuery>;
 export type OneUserLazyQueryHookResult = ReturnType<typeof useOneUserLazyQuery>;
-export type OneUserQueryResult = ApolloReactCommon.QueryResult<OneUserQuery, OneUserQueryVariables>;
+export type OneUserQueryResult = ApolloReactCommon.QueryResult<
+  OneUserQuery,
+  OneUserQueryVariables
+>;
 export const AddUserDocument = gql`
-    mutation AddUser($newUser: AddUserRequest!) {
-  addUser(newUser: $newUser) {
-    id
-    email
-    firstName
-    lastName
-    role
+  mutation AddUser($newUser: AddUserRequest!) {
+    addUser(newUser: $newUser) {
+      id
+      email
+      firstName
+      lastName
+      role
+    }
   }
-}
-    `;
-export type AddUserMutationFn = ApolloReactCommon.MutationFunction<AddUserMutation, AddUserMutationVariables>;
+`;
+export type AddUserMutationFn = ApolloReactCommon.MutationFunction<
+  AddUserMutation,
+  AddUserMutationVariables
+>;
 
 /**
  * __useAddUserMutation__
@@ -492,24 +527,40 @@ export type AddUserMutationFn = ApolloReactCommon.MutationFunction<AddUserMutati
  *   },
  * });
  */
-export function useAddUserMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<AddUserMutation, AddUserMutationVariables>) {
-        return ApolloReactHooks.useMutation<AddUserMutation, AddUserMutationVariables>(AddUserDocument, baseOptions);
-      }
-export type AddUserMutationHookResult = ReturnType<typeof useAddUserMutation>;
-export type AddUserMutationResult = ApolloReactCommon.MutationResult<AddUserMutation>;
-export type AddUserMutationOptions = ApolloReactCommon.BaseMutationOptions<AddUserMutation, AddUserMutationVariables>;
-export const UpdateUserDocument = gql`
-    mutation UpdateUser($updatedUser: UpdateUserRequest!) {
-  updateUser(updatedUser: $updatedUser) {
-    id
-    email
-    firstName
-    lastName
-    role
-  }
+export function useAddUserMutation(
+  baseOptions?: ApolloReactHooks.MutationHookOptions<
+    AddUserMutation,
+    AddUserMutationVariables
+  >
+) {
+  return ApolloReactHooks.useMutation<
+    AddUserMutation,
+    AddUserMutationVariables
+  >(AddUserDocument, baseOptions);
 }
-    `;
-export type UpdateUserMutationFn = ApolloReactCommon.MutationFunction<UpdateUserMutation, UpdateUserMutationVariables>;
+export type AddUserMutationHookResult = ReturnType<typeof useAddUserMutation>;
+export type AddUserMutationResult = ApolloReactCommon.MutationResult<
+  AddUserMutation
+>;
+export type AddUserMutationOptions = ApolloReactCommon.BaseMutationOptions<
+  AddUserMutation,
+  AddUserMutationVariables
+>;
+export const UpdateUserDocument = gql`
+  mutation UpdateUser($updatedUser: UpdateUserRequest!) {
+    updateUser(updatedUser: $updatedUser) {
+      id
+      email
+      firstName
+      lastName
+      role
+    }
+  }
+`;
+export type UpdateUserMutationFn = ApolloReactCommon.MutationFunction<
+  UpdateUserMutation,
+  UpdateUserMutationVariables
+>;
 
 /**
  * __useUpdateUserMutation__
@@ -528,24 +579,42 @@ export type UpdateUserMutationFn = ApolloReactCommon.MutationFunction<UpdateUser
  *   },
  * });
  */
-export function useUpdateUserMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<UpdateUserMutation, UpdateUserMutationVariables>) {
-        return ApolloReactHooks.useMutation<UpdateUserMutation, UpdateUserMutationVariables>(UpdateUserDocument, baseOptions);
-      }
-export type UpdateUserMutationHookResult = ReturnType<typeof useUpdateUserMutation>;
-export type UpdateUserMutationResult = ApolloReactCommon.MutationResult<UpdateUserMutation>;
-export type UpdateUserMutationOptions = ApolloReactCommon.BaseMutationOptions<UpdateUserMutation, UpdateUserMutationVariables>;
-export const DeleteUserDocument = gql`
-    mutation DeleteUser($userId: Int!) {
-  deleteUser(userId: $userId) {
-    id
-    email
-    firstName
-    lastName
-    role
-  }
+export function useUpdateUserMutation(
+  baseOptions?: ApolloReactHooks.MutationHookOptions<
+    UpdateUserMutation,
+    UpdateUserMutationVariables
+  >
+) {
+  return ApolloReactHooks.useMutation<
+    UpdateUserMutation,
+    UpdateUserMutationVariables
+  >(UpdateUserDocument, baseOptions);
 }
-    `;
-export type DeleteUserMutationFn = ApolloReactCommon.MutationFunction<DeleteUserMutation, DeleteUserMutationVariables>;
+export type UpdateUserMutationHookResult = ReturnType<
+  typeof useUpdateUserMutation
+>;
+export type UpdateUserMutationResult = ApolloReactCommon.MutationResult<
+  UpdateUserMutation
+>;
+export type UpdateUserMutationOptions = ApolloReactCommon.BaseMutationOptions<
+  UpdateUserMutation,
+  UpdateUserMutationVariables
+>;
+export const DeleteUserDocument = gql`
+  mutation DeleteUser($userId: Int!) {
+    deleteUser(userId: $userId) {
+      id
+      email
+      firstName
+      lastName
+      role
+    }
+  }
+`;
+export type DeleteUserMutationFn = ApolloReactCommon.MutationFunction<
+  DeleteUserMutation,
+  DeleteUserMutationVariables
+>;
 
 /**
  * __useDeleteUserMutation__
@@ -564,35 +633,50 @@ export type DeleteUserMutationFn = ApolloReactCommon.MutationFunction<DeleteUser
  *   },
  * });
  */
-export function useDeleteUserMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<DeleteUserMutation, DeleteUserMutationVariables>) {
-        return ApolloReactHooks.useMutation<DeleteUserMutation, DeleteUserMutationVariables>(DeleteUserDocument, baseOptions);
-      }
-export type DeleteUserMutationHookResult = ReturnType<typeof useDeleteUserMutation>;
-export type DeleteUserMutationResult = ApolloReactCommon.MutationResult<DeleteUserMutation>;
-export type DeleteUserMutationOptions = ApolloReactCommon.BaseMutationOptions<DeleteUserMutation, DeleteUserMutationVariables>;
-export const ReviewDocument = gql`
-    query Review {
-  reviews {
-    id
-    reviewer {
-      email
-      id
-      firstName
-      lastName
-      role
-    }
-    reviewee {
-      email
-      id
-      firstName
-      lastName
-      role
-    }
-    text
-    completed
-  }
+export function useDeleteUserMutation(
+  baseOptions?: ApolloReactHooks.MutationHookOptions<
+    DeleteUserMutation,
+    DeleteUserMutationVariables
+  >
+) {
+  return ApolloReactHooks.useMutation<
+    DeleteUserMutation,
+    DeleteUserMutationVariables
+  >(DeleteUserDocument, baseOptions);
 }
-    `;
+export type DeleteUserMutationHookResult = ReturnType<
+  typeof useDeleteUserMutation
+>;
+export type DeleteUserMutationResult = ApolloReactCommon.MutationResult<
+  DeleteUserMutation
+>;
+export type DeleteUserMutationOptions = ApolloReactCommon.BaseMutationOptions<
+  DeleteUserMutation,
+  DeleteUserMutationVariables
+>;
+export const ReviewDocument = gql`
+  query Review {
+    reviews {
+      id
+      reviewer {
+        email
+        id
+        firstName
+        lastName
+        role
+      }
+      reviewee {
+        email
+        id
+        firstName
+        lastName
+        role
+      }
+      text
+      completed
+    }
+  }
+`;
 
 /**
  * __useReviewQuery__
@@ -609,38 +693,57 @@ export const ReviewDocument = gql`
  *   },
  * });
  */
-export function useReviewQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<ReviewQuery, ReviewQueryVariables>) {
-        return ApolloReactHooks.useQuery<ReviewQuery, ReviewQueryVariables>(ReviewDocument, baseOptions);
-      }
-export function useReviewLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<ReviewQuery, ReviewQueryVariables>) {
-          return ApolloReactHooks.useLazyQuery<ReviewQuery, ReviewQueryVariables>(ReviewDocument, baseOptions);
-        }
+export function useReviewQuery(
+  baseOptions?: ApolloReactHooks.QueryHookOptions<
+    ReviewQuery,
+    ReviewQueryVariables
+  >
+) {
+  return ApolloReactHooks.useQuery<ReviewQuery, ReviewQueryVariables>(
+    ReviewDocument,
+    baseOptions
+  );
+}
+export function useReviewLazyQuery(
+  baseOptions?: ApolloReactHooks.LazyQueryHookOptions<
+    ReviewQuery,
+    ReviewQueryVariables
+  >
+) {
+  return ApolloReactHooks.useLazyQuery<ReviewQuery, ReviewQueryVariables>(
+    ReviewDocument,
+    baseOptions
+  );
+}
 export type ReviewQueryHookResult = ReturnType<typeof useReviewQuery>;
 export type ReviewLazyQueryHookResult = ReturnType<typeof useReviewLazyQuery>;
-export type ReviewQueryResult = ApolloReactCommon.QueryResult<ReviewQuery, ReviewQueryVariables>;
+export type ReviewQueryResult = ApolloReactCommon.QueryResult<
+  ReviewQuery,
+  ReviewQueryVariables
+>;
 export const MyReviewsDocument = gql`
-    query MyReviews {
-  myReviews {
-    id
-    reviewer {
-      email
+  query MyReviews {
+    myReviews {
       id
-      firstName
-      lastName
-      role
+      reviewer {
+        email
+        id
+        firstName
+        lastName
+        role
+      }
+      reviewee {
+        email
+        id
+        firstName
+        lastName
+        role
+      }
+      text
+      completed
     }
-    reviewee {
-      email
-      id
-      firstName
-      lastName
-      role
-    }
-    text
-    completed
   }
-}
-    `;
+`;
 
 /**
  * __useMyReviewsQuery__
@@ -657,38 +760,59 @@ export const MyReviewsDocument = gql`
  *   },
  * });
  */
-export function useMyReviewsQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<MyReviewsQuery, MyReviewsQueryVariables>) {
-        return ApolloReactHooks.useQuery<MyReviewsQuery, MyReviewsQueryVariables>(MyReviewsDocument, baseOptions);
-      }
-export function useMyReviewsLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<MyReviewsQuery, MyReviewsQueryVariables>) {
-          return ApolloReactHooks.useLazyQuery<MyReviewsQuery, MyReviewsQueryVariables>(MyReviewsDocument, baseOptions);
-        }
-export type MyReviewsQueryHookResult = ReturnType<typeof useMyReviewsQuery>;
-export type MyReviewsLazyQueryHookResult = ReturnType<typeof useMyReviewsLazyQuery>;
-export type MyReviewsQueryResult = ApolloReactCommon.QueryResult<MyReviewsQuery, MyReviewsQueryVariables>;
-export const OneReviewDocument = gql`
-    query OneReview($reviewId: Int!) {
-  review(reviewId: $reviewId) {
-    id
-    reviewer {
-      email
-      id
-      firstName
-      lastName
-      role
-    }
-    reviewee {
-      email
-      id
-      firstName
-      lastName
-      role
-    }
-    text
-    completed
-  }
+export function useMyReviewsQuery(
+  baseOptions?: ApolloReactHooks.QueryHookOptions<
+    MyReviewsQuery,
+    MyReviewsQueryVariables
+  >
+) {
+  return ApolloReactHooks.useQuery<MyReviewsQuery, MyReviewsQueryVariables>(
+    MyReviewsDocument,
+    baseOptions
+  );
 }
-    `;
+export function useMyReviewsLazyQuery(
+  baseOptions?: ApolloReactHooks.LazyQueryHookOptions<
+    MyReviewsQuery,
+    MyReviewsQueryVariables
+  >
+) {
+  return ApolloReactHooks.useLazyQuery<MyReviewsQuery, MyReviewsQueryVariables>(
+    MyReviewsDocument,
+    baseOptions
+  );
+}
+export type MyReviewsQueryHookResult = ReturnType<typeof useMyReviewsQuery>;
+export type MyReviewsLazyQueryHookResult = ReturnType<
+  typeof useMyReviewsLazyQuery
+>;
+export type MyReviewsQueryResult = ApolloReactCommon.QueryResult<
+  MyReviewsQuery,
+  MyReviewsQueryVariables
+>;
+export const OneReviewDocument = gql`
+  query OneReview($reviewId: Int!) {
+    review(reviewId: $reviewId) {
+      id
+      reviewer {
+        email
+        id
+        firstName
+        lastName
+        role
+      }
+      reviewee {
+        email
+        id
+        firstName
+        lastName
+        role
+      }
+      text
+      completed
+    }
+  }
+`;
 
 /**
  * __useOneReviewQuery__
@@ -706,39 +830,63 @@ export const OneReviewDocument = gql`
  *   },
  * });
  */
-export function useOneReviewQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<OneReviewQuery, OneReviewQueryVariables>) {
-        return ApolloReactHooks.useQuery<OneReviewQuery, OneReviewQueryVariables>(OneReviewDocument, baseOptions);
-      }
-export function useOneReviewLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<OneReviewQuery, OneReviewQueryVariables>) {
-          return ApolloReactHooks.useLazyQuery<OneReviewQuery, OneReviewQueryVariables>(OneReviewDocument, baseOptions);
-        }
-export type OneReviewQueryHookResult = ReturnType<typeof useOneReviewQuery>;
-export type OneReviewLazyQueryHookResult = ReturnType<typeof useOneReviewLazyQuery>;
-export type OneReviewQueryResult = ApolloReactCommon.QueryResult<OneReviewQuery, OneReviewQueryVariables>;
-export const DeleteReviewDocument = gql`
-    mutation DeleteReview($reviewId: Int!) {
-  deleteReview(reviewId: $reviewId) {
-    id
-    reviewer {
-      email
-      id
-      firstName
-      lastName
-      role
-    }
-    reviewee {
-      email
-      id
-      firstName
-      lastName
-      role
-    }
-    text
-    completed
-  }
+export function useOneReviewQuery(
+  baseOptions?: ApolloReactHooks.QueryHookOptions<
+    OneReviewQuery,
+    OneReviewQueryVariables
+  >
+) {
+  return ApolloReactHooks.useQuery<OneReviewQuery, OneReviewQueryVariables>(
+    OneReviewDocument,
+    baseOptions
+  );
 }
-    `;
-export type DeleteReviewMutationFn = ApolloReactCommon.MutationFunction<DeleteReviewMutation, DeleteReviewMutationVariables>;
+export function useOneReviewLazyQuery(
+  baseOptions?: ApolloReactHooks.LazyQueryHookOptions<
+    OneReviewQuery,
+    OneReviewQueryVariables
+  >
+) {
+  return ApolloReactHooks.useLazyQuery<OneReviewQuery, OneReviewQueryVariables>(
+    OneReviewDocument,
+    baseOptions
+  );
+}
+export type OneReviewQueryHookResult = ReturnType<typeof useOneReviewQuery>;
+export type OneReviewLazyQueryHookResult = ReturnType<
+  typeof useOneReviewLazyQuery
+>;
+export type OneReviewQueryResult = ApolloReactCommon.QueryResult<
+  OneReviewQuery,
+  OneReviewQueryVariables
+>;
+export const DeleteReviewDocument = gql`
+  mutation DeleteReview($reviewId: Int!) {
+    deleteReview(reviewId: $reviewId) {
+      id
+      reviewer {
+        email
+        id
+        firstName
+        lastName
+        role
+      }
+      reviewee {
+        email
+        id
+        firstName
+        lastName
+        role
+      }
+      text
+      completed
+    }
+  }
+`;
+export type DeleteReviewMutationFn = ApolloReactCommon.MutationFunction<
+  DeleteReviewMutation,
+  DeleteReviewMutationVariables
+>;
 
 /**
  * __useDeleteReviewMutation__
@@ -757,36 +905,54 @@ export type DeleteReviewMutationFn = ApolloReactCommon.MutationFunction<DeleteRe
  *   },
  * });
  */
-export function useDeleteReviewMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<DeleteReviewMutation, DeleteReviewMutationVariables>) {
-        return ApolloReactHooks.useMutation<DeleteReviewMutation, DeleteReviewMutationVariables>(DeleteReviewDocument, baseOptions);
-      }
-export type DeleteReviewMutationHookResult = ReturnType<typeof useDeleteReviewMutation>;
-export type DeleteReviewMutationResult = ApolloReactCommon.MutationResult<DeleteReviewMutation>;
-export type DeleteReviewMutationOptions = ApolloReactCommon.BaseMutationOptions<DeleteReviewMutation, DeleteReviewMutationVariables>;
-export const RequestReviewDocument = gql`
-    mutation RequestReview($newReview: AddReviewRequest!) {
-  requestReview(newReview: $newReview) {
-    id
-    reviewer {
-      email
-      id
-      firstName
-      lastName
-      role
-    }
-    reviewee {
-      email
-      id
-      firstName
-      lastName
-      role
-    }
-    text
-    completed
-  }
+export function useDeleteReviewMutation(
+  baseOptions?: ApolloReactHooks.MutationHookOptions<
+    DeleteReviewMutation,
+    DeleteReviewMutationVariables
+  >
+) {
+  return ApolloReactHooks.useMutation<
+    DeleteReviewMutation,
+    DeleteReviewMutationVariables
+  >(DeleteReviewDocument, baseOptions);
 }
-    `;
-export type RequestReviewMutationFn = ApolloReactCommon.MutationFunction<RequestReviewMutation, RequestReviewMutationVariables>;
+export type DeleteReviewMutationHookResult = ReturnType<
+  typeof useDeleteReviewMutation
+>;
+export type DeleteReviewMutationResult = ApolloReactCommon.MutationResult<
+  DeleteReviewMutation
+>;
+export type DeleteReviewMutationOptions = ApolloReactCommon.BaseMutationOptions<
+  DeleteReviewMutation,
+  DeleteReviewMutationVariables
+>;
+export const RequestReviewDocument = gql`
+  mutation RequestReview($newReview: AddReviewRequest!) {
+    requestReview(newReview: $newReview) {
+      id
+      reviewer {
+        email
+        id
+        firstName
+        lastName
+        role
+      }
+      reviewee {
+        email
+        id
+        firstName
+        lastName
+        role
+      }
+      text
+      completed
+    }
+  }
+`;
+export type RequestReviewMutationFn = ApolloReactCommon.MutationFunction<
+  RequestReviewMutation,
+  RequestReviewMutationVariables
+>;
 
 /**
  * __useRequestReviewMutation__
@@ -805,36 +971,54 @@ export type RequestReviewMutationFn = ApolloReactCommon.MutationFunction<Request
  *   },
  * });
  */
-export function useRequestReviewMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<RequestReviewMutation, RequestReviewMutationVariables>) {
-        return ApolloReactHooks.useMutation<RequestReviewMutation, RequestReviewMutationVariables>(RequestReviewDocument, baseOptions);
-      }
-export type RequestReviewMutationHookResult = ReturnType<typeof useRequestReviewMutation>;
-export type RequestReviewMutationResult = ApolloReactCommon.MutationResult<RequestReviewMutation>;
-export type RequestReviewMutationOptions = ApolloReactCommon.BaseMutationOptions<RequestReviewMutation, RequestReviewMutationVariables>;
-export const CompleteReviewDocument = gql`
-    mutation CompleteReview($review: CompleteReview!) {
-  completeReview(review: $review) {
-    id
-    reviewer {
-      email
-      id
-      firstName
-      lastName
-      role
-    }
-    reviewee {
-      email
-      id
-      firstName
-      lastName
-      role
-    }
-    text
-    completed
-  }
+export function useRequestReviewMutation(
+  baseOptions?: ApolloReactHooks.MutationHookOptions<
+    RequestReviewMutation,
+    RequestReviewMutationVariables
+  >
+) {
+  return ApolloReactHooks.useMutation<
+    RequestReviewMutation,
+    RequestReviewMutationVariables
+  >(RequestReviewDocument, baseOptions);
 }
-    `;
-export type CompleteReviewMutationFn = ApolloReactCommon.MutationFunction<CompleteReviewMutation, CompleteReviewMutationVariables>;
+export type RequestReviewMutationHookResult = ReturnType<
+  typeof useRequestReviewMutation
+>;
+export type RequestReviewMutationResult = ApolloReactCommon.MutationResult<
+  RequestReviewMutation
+>;
+export type RequestReviewMutationOptions = ApolloReactCommon.BaseMutationOptions<
+  RequestReviewMutation,
+  RequestReviewMutationVariables
+>;
+export const CompleteReviewDocument = gql`
+  mutation CompleteReview($review: CompleteReview!) {
+    completeReview(review: $review) {
+      id
+      reviewer {
+        email
+        id
+        firstName
+        lastName
+        role
+      }
+      reviewee {
+        email
+        id
+        firstName
+        lastName
+        role
+      }
+      text
+      completed
+    }
+  }
+`;
+export type CompleteReviewMutationFn = ApolloReactCommon.MutationFunction<
+  CompleteReviewMutation,
+  CompleteReviewMutationVariables
+>;
 
 /**
  * __useCompleteReviewMutation__
@@ -853,27 +1037,45 @@ export type CompleteReviewMutationFn = ApolloReactCommon.MutationFunction<Comple
  *   },
  * });
  */
-export function useCompleteReviewMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<CompleteReviewMutation, CompleteReviewMutationVariables>) {
-        return ApolloReactHooks.useMutation<CompleteReviewMutation, CompleteReviewMutationVariables>(CompleteReviewDocument, baseOptions);
-      }
-export type CompleteReviewMutationHookResult = ReturnType<typeof useCompleteReviewMutation>;
-export type CompleteReviewMutationResult = ApolloReactCommon.MutationResult<CompleteReviewMutation>;
-export type CompleteReviewMutationOptions = ApolloReactCommon.BaseMutationOptions<CompleteReviewMutation, CompleteReviewMutationVariables>;
+export function useCompleteReviewMutation(
+  baseOptions?: ApolloReactHooks.MutationHookOptions<
+    CompleteReviewMutation,
+    CompleteReviewMutationVariables
+  >
+) {
+  return ApolloReactHooks.useMutation<
+    CompleteReviewMutation,
+    CompleteReviewMutationVariables
+  >(CompleteReviewDocument, baseOptions);
+}
+export type CompleteReviewMutationHookResult = ReturnType<
+  typeof useCompleteReviewMutation
+>;
+export type CompleteReviewMutationResult = ApolloReactCommon.MutationResult<
+  CompleteReviewMutation
+>;
+export type CompleteReviewMutationOptions = ApolloReactCommon.BaseMutationOptions<
+  CompleteReviewMutation,
+  CompleteReviewMutationVariables
+>;
 export const LoginDocument = gql`
-    mutation Login($email: String!, $password: String!) {
-  login(email: $email, password: $password) {
-    accessToken
-    user {
-      id
-      email
-      role
-      firstName
-      lastName
+  mutation Login($email: String!, $password: String!) {
+    login(email: $email, password: $password) {
+      accessToken
+      user {
+        id
+        email
+        role
+        firstName
+        lastName
+      }
     }
   }
-}
-    `;
-export type LoginMutationFn = ApolloReactCommon.MutationFunction<LoginMutation, LoginMutationVariables>;
+`;
+export type LoginMutationFn = ApolloReactCommon.MutationFunction<
+  LoginMutation,
+  LoginMutationVariables
+>;
 
 /**
  * __useLoginMutation__
@@ -893,18 +1095,34 @@ export type LoginMutationFn = ApolloReactCommon.MutationFunction<LoginMutation, 
  *   },
  * });
  */
-export function useLoginMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<LoginMutation, LoginMutationVariables>) {
-        return ApolloReactHooks.useMutation<LoginMutation, LoginMutationVariables>(LoginDocument, baseOptions);
-      }
-export type LoginMutationHookResult = ReturnType<typeof useLoginMutation>;
-export type LoginMutationResult = ApolloReactCommon.MutationResult<LoginMutation>;
-export type LoginMutationOptions = ApolloReactCommon.BaseMutationOptions<LoginMutation, LoginMutationVariables>;
-export const LogoutDocument = gql`
-    mutation Logout {
-  logout
+export function useLoginMutation(
+  baseOptions?: ApolloReactHooks.MutationHookOptions<
+    LoginMutation,
+    LoginMutationVariables
+  >
+) {
+  return ApolloReactHooks.useMutation<LoginMutation, LoginMutationVariables>(
+    LoginDocument,
+    baseOptions
+  );
 }
-    `;
-export type LogoutMutationFn = ApolloReactCommon.MutationFunction<LogoutMutation, LogoutMutationVariables>;
+export type LoginMutationHookResult = ReturnType<typeof useLoginMutation>;
+export type LoginMutationResult = ApolloReactCommon.MutationResult<
+  LoginMutation
+>;
+export type LoginMutationOptions = ApolloReactCommon.BaseMutationOptions<
+  LoginMutation,
+  LoginMutationVariables
+>;
+export const LogoutDocument = gql`
+  mutation Logout {
+    logout
+  }
+`;
+export type LogoutMutationFn = ApolloReactCommon.MutationFunction<
+  LogoutMutation,
+  LogoutMutationVariables
+>;
 
 /**
  * __useLogoutMutation__
@@ -922,9 +1140,22 @@ export type LogoutMutationFn = ApolloReactCommon.MutationFunction<LogoutMutation
  *   },
  * });
  */
-export function useLogoutMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<LogoutMutation, LogoutMutationVariables>) {
-        return ApolloReactHooks.useMutation<LogoutMutation, LogoutMutationVariables>(LogoutDocument, baseOptions);
-      }
+export function useLogoutMutation(
+  baseOptions?: ApolloReactHooks.MutationHookOptions<
+    LogoutMutation,
+    LogoutMutationVariables
+  >
+) {
+  return ApolloReactHooks.useMutation<LogoutMutation, LogoutMutationVariables>(
+    LogoutDocument,
+    baseOptions
+  );
+}
 export type LogoutMutationHookResult = ReturnType<typeof useLogoutMutation>;
-export type LogoutMutationResult = ApolloReactCommon.MutationResult<LogoutMutation>;
-export type LogoutMutationOptions = ApolloReactCommon.BaseMutationOptions<LogoutMutation, LogoutMutationVariables>;
+export type LogoutMutationResult = ApolloReactCommon.MutationResult<
+  LogoutMutation
+>;
+export type LogoutMutationOptions = ApolloReactCommon.BaseMutationOptions<
+  LogoutMutation,
+  LogoutMutationVariables
+>;

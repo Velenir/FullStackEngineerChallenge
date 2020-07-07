@@ -1,4 +1,3 @@
-import Link from 'next/link';
 import Layout from 'components/Layout';
 import { AddOrEditUserForm, AddUserData } from 'components/AddUserForm';
 import { useAuth } from 'client/utils/useAuth';
@@ -46,11 +45,7 @@ const AddUsers = () => {
     <Layout title="AddUsers">
       <h1>Add Users</h1>
       <p>This is the Add Users page</p>
-      <p>
-        <Link href="/">
-          <a>Go home</a>
-        </Link>
-      </p>
+
       <div>
         <AddOrEditUserForm onSubmit={onSubmit}>
           {gqlError && <p>{gqlError.message}</p>}

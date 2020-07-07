@@ -5,30 +5,53 @@ import { useMeQuery, useLogoutMutation } from '../generated/graphql';
 import { setAccessToken } from 'client/utils/accessToken';
 import { USER_ROLE } from 'server/consts';
 import { useRouter } from 'next/router';
+import { Navigation } from './Navigation';
 
-type Props = {
+const AdminAside = () => {
+  return (
+    <>
+      <Link href="/admin/users">
+        <a>View users</a>
+      </Link>
+      <Link href="/admin/add_user">
+        <a>Add an employee</a>
+      </Link>
+      <Link href="/admin/reviews">
+        <a>View reviews</a>
+      </Link>
+      <Link href="/admin/request_review">
+        <a>Request a review</a>
+      </Link>
+    </>
+  );
+};
+
+type LayoutProps = {
   children?: ReactNode;
   title?: string;
 };
 
-const Layout = ({ children, title = 'This is the default title' }: Props) => {
+const Layout = ({
+  children,
+  title = 'This is the default title',
+}: LayoutProps) => {
   const { data, error } = useMeQuery();
   const [logout, { client }] = useLogoutMutation();
 
-  const router = useRouter()
+  const router = useRouter();
 
-  if (error) return <p>{error.message}</p>
+  if (error) return <p>{error.message}</p>;
 
   const onLogout = async () => {
     await logout();
     setAccessToken('');
 
     await client?.resetStore();
-    router.push('/')
+    router.push('/');
   };
 
   return (
-    <div>
+    <div className="container">
       <Head>
         <title>{title}</title>
         <meta charSet="utf-8" />
@@ -41,44 +64,70 @@ const Layout = ({ children, title = 'This is the default title' }: Props) => {
             Logout
           </button>
         )}
-        <nav>
-          <Link href="/">
-            <a>Home</a>
-          </Link>{' '}
-          |{' '}
-          <Link href="/about">
-            <a>About</a>
-          </Link>{' '}
-          |{' '}
-          <Link href="/login">
-            <a>Login</a>
-          </Link>{' '}
-          |{' '}
-          <Link href="/register">
-            <a>Register</a>
-          </Link>{' '}
-          |{' '}
-          <Link href="/bye">
-            <a>Bye</a>
-          </Link>
-          |{' '}
-          <Link href="/users">
-            <a>Users List</a>
-          </Link>{' '}
-          |{' '}
-          {data?.me?.role === USER_ROLE.ADMIN && <Link href="/admin">
-            <a>Admin</a>
-          </Link>}{' '}
-          {data?.me && <Link href="/profile">
-            <a>Profile</a>
-          </Link>}{' '}
-          {data?.me && <Link href="/reviews">
-            <a>Reviews</a>
-          </Link>}{' '}
-          | <a href="/api/users">Users API</a>
-        </nav>
       </header>
-      {children}
+      <nav>
+        <Navigation me={data?.me} />
+      </nav>
+      {data?.me?.role === USER_ROLE.ADMIN && (
+        <aside>
+          <AdminAside />
+        </aside>
+      )}
+      <main>{children}</main>
+      <style jsx>
+        {`
+          .container {
+            display: grid;
+            grid-template-columns: 20ch 1fr;
+            grid-template-rows: 3em 4em minmax(350px, 1fr);
+            grid-template-areas:
+              'header header'
+              '. navigation'
+              'aside main';
+
+            // align-items: center;
+            // justify-items: center;
+          }
+
+          header {
+            grid-area: header;
+            display: flex;
+            align-items: center;
+          }
+
+          nav {
+            grid-area: navigation;
+            justify-content: space-evenly;
+          }
+          main {
+            grid-area: main;
+            flex-direction: column;
+          }
+
+          nav,
+          main {
+            display: flex;
+            align-items: center;
+          }
+
+          nav + main {
+            grid-column-start: 1;
+          }
+
+          aside {
+            grid-area: aside;
+            display: flex;
+            flex-direction: column;
+            align-self: stretch;
+            justify-content: space-evenly;
+          }
+
+          main,
+          aside {
+            border: 1px solid gray;
+          }
+        `}
+      </style>
     </div>
   );
 };

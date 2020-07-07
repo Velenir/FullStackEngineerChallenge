@@ -20,6 +20,11 @@ const AdminPage = () => {
           <a>Request a review</a>
         </Link>
       </p>
+      <style jsx>{`
+        p > a {
+          padding: 1em;
+        }
+      `}</style>
     </Layout>
   );
 };

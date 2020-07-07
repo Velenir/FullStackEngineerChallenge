@@ -1,7 +1,7 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { ErrorMessage } from '@hookform/error-message';
-import { useOneReviewQuery } from 'generated/graphql';
+import { Form } from './Form';
 
 export interface SubmitReviewData {
   text: string;
@@ -9,33 +9,35 @@ export interface SubmitReviewData {
 
 interface SubmitReviewProps {
   onSubmit: (data: SubmitReviewData) => void;
-  reviewId: number;
 }
 
 export const SubmitReview: React.FC<SubmitReviewProps> = ({
   onSubmit,
-  reviewId,
   children,
 }) => {
   const { register, handleSubmit, errors } = useForm<SubmitReviewData>();
 
-  const { data, error: gqlError } = useOneReviewQuery({
-    variables: { reviewId },
-  });
-
   return (
-    <form
-      onSubmit={handleSubmit(onSubmit)}
-      style={{ display: 'flex', flexDirection: 'column', width: 'fit-content' }}
-    >
+    <Form onSubmit={handleSubmit(onSubmit)}>
       <label>
         <span>Review text: </span>
         <textarea name="text" ref={register({ required: true })} />
         <ErrorMessage name="text" errors={errors} />
       </label>
       <button type="submit">Submit</button>
-      {gqlError && <p>{gqlError.message}</p>}
       {children}
-    </form>
+      <style jsx>{`
+        label {
+          display: flex;
+          flex-direction: column;
+          margin: 1em 0;
+        }
+
+        textarea {
+          min-width: 40ch;
+          min-height: 10em;
+        }
+      `}</style>
+    </Form>
   );
 };
