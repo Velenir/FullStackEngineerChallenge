@@ -9,7 +9,9 @@ import faker from 'faker';
 //  run as `yarn populate` to pre-fill database
 async function main() {
   try {
-    await createConnection(DEFAULT_CONNECTION);
+    const connection = await createConnection(DEFAULT_CONNECTION);
+    await connection.synchronize(true);
+
     const adminUser = new User();
     adminUser.firstName = 'Admin';
     adminUser.lastName = 'Adminovich';
@@ -20,45 +22,55 @@ async function main() {
     await adminUser.save();
     console.log('Saved a new user with id: ' + adminUser.id);
 
-    const user = new User();
-    user.firstName = 'Employed';
-    user.lastName = 'Employee';
-    user.email = 'employee@example.com';
-    user.password = await hash('employee', GEN_SALT_ROUNDS);
+    const employeeUser = new User();
+    employeeUser.firstName = 'Employed';
+    employeeUser.lastName = 'Employee';
+    employeeUser.email = 'employee@example.com';
+    employeeUser.password = await hash('employee', GEN_SALT_ROUNDS);
 
-    await user.save();
+    await employeeUser.save();
 
+    // by Admin of Employee
     const sampleReview1 = new Review();
 
-    sampleReview1.reviewee = user;
+    sampleReview1.reviewee = employeeUser;
     sampleReview1.reviewer = adminUser;
 
     await sampleReview1.save();
 
+    // by Admin of Employee, already completed
     const sampleReview2 = new Review();
 
-    sampleReview2.reviewee = user;
+    sampleReview2.reviewee = employeeUser;
     sampleReview2.reviewer = adminUser;
     sampleReview2.text = 'Employee is a good, hard-working guy!';
     sampleReview2.completed = true;
 
     await sampleReview2.save();
 
-    console.log('Saved a new user with id: ' + user.id);
+    // by Employee of Admin
+    const sampleReview3 = new Review();
 
-    for (let i = 0; i < 10; ++i) {
-      const user = new User();
-      user.firstName = faker.name.firstName();
-      user.lastName = faker.name.lastName();
-      user.email = faker.internet.email();
-      user.password = await hash('employee', GEN_SALT_ROUNDS);
+    sampleReview3.reviewer = employeeUser;
+    sampleReview3.reviewee = adminUser;
 
-      await user.save();
+    await sampleReview3.save();
 
-      console.log('Saved a new user with id: ' + user.id);
-    }
+    console.log('Saved a new user with id: ' + employeeUser.id);
 
-    // User.insert([], {})
+    const randomUsers = await Promise.all(
+      Array.from({ length: 10 }, async () => {
+        const user = new User();
+        user.firstName = faker.name.firstName();
+        user.lastName = faker.name.lastName();
+        user.email = `${user.firstName}_${user.lastName}@example.com`;
+        user.password = await hash('employee', GEN_SALT_ROUNDS);
+
+        return user;
+      })
+    );
+
+    await User.insert(randomUsers);
 
     console.log('Loading users from the database...');
     const users = await User.find();
