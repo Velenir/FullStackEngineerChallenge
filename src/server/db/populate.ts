@@ -10,7 +10,10 @@ import faker from 'faker';
 async function main() {
   try {
     const connection = await createConnection(DEFAULT_CONNECTION);
-    await connection.synchronize(true);
+    await connection.synchronize(true); // clear DB
+
+    // admin has `admin` password
+    // employees have `employee` password
 
     const adminUser = new User();
     adminUser.firstName = 'Admin';
