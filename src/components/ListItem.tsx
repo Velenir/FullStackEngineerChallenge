@@ -12,7 +12,7 @@ type UserProps = {
 export const UserListItem = ({ item, prefix = '' }: UserProps) => (
   <Link href={`${prefix}/users/[id]`} as={`${prefix}/users/${item.id}`}>
     <a>
-      {item.id}: {item.firstName} {item.firstName}
+      {item.id}: {item.firstName} {item.lastName}
     </a>
   </Link>
 );
