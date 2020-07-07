@@ -56,11 +56,25 @@ export class ReviewResolver {
   }
 
   @Query(() => Review, { nullable: true })
-  @UseMiddleware(isAuth, isRole(USER_ROLE.ADMIN))
+  @UseMiddleware(isAuth)
   async review(
-    @Arg('reviewId', () => Int) reviewId: number
+    @Arg('reviewId', () => Int) reviewId: number,
+    @Ctx() ctx: GQLContext
   ): Promise<Review | null> {
-    return (await Review.findOne(reviewId)) || null;
+    const review = await Review.findOne(reviewId);
+
+    if (!review) return null;
+
+    const { userId } = ctx.payload!;
+
+    if (
+      // only allow to see reviews for this user
+      (review.reviewee.id === userId && review.completed) || // where he was reviewed
+      review.reviewer.id === userId // that he needs to/ already reviewed
+    )
+      return review;
+
+    throw new Error('Access denied');
   }
 
   @Mutation(() => [Review])

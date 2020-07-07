@@ -22,6 +22,8 @@ const ReviewDetailsPage = () => {
 
   const router = useRouter();
 
+  if (error) return <p>{error.message}</p>;
+
   if (!data?.review) return null;
 
   const { review } = data;
@@ -58,7 +60,6 @@ const ReviewDetailsPage = () => {
             {gqlDeleteError && <p>{gqlDeleteError.message}</p>}
           </SubmitReview>
         )}
-        {error && <p>{error.message}</p>}
       </div>
     </Layout>
   );
