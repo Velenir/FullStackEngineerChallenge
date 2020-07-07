@@ -85,7 +85,7 @@ function createApolloClient() {
       tokenRefreshLink as any,
       onError(({ graphQLErrors, networkError }) => {
         graphQLErrors && console.log(graphQLErrors);
-        networkError&& console.log(networkError);
+        networkError && console.log(networkError);
       }),
       requestLink,
       new HttpLink({

@@ -138,6 +138,12 @@ export class UserResolver {
     return User.find();
   }
 
+  @Query(() => User, { nullable: true })
+  @UseMiddleware(isAuth, isRole(USER_ROLE.ADMIN))
+  async user(@Arg('userId', () => Int) userId: number): Promise<User | null> {
+    return (await User.findOne(userId)) || null;
+  }
+
   @Mutation(() => [User])
   @UseMiddleware(isAuth, isRole(USER_ROLE.ADMIN))
   async updateUser(
@@ -145,7 +151,14 @@ export class UserResolver {
   ): Promise<User[]> {
     console.log('UserResolver::updateUser', updatedUser);
 
-    const { user_id, ...userData } = updatedUser;
+    const { user_id, password, ...userData } = updatedUser;
+
+    if (password) {
+      (userData as Omit<UpdateUserRequest, 'user_id'>).password = await hash(
+        password,
+        GEN_SALT_ROUNDS
+      );
+    }
 
     await User.update(user_id, userData);
 
@@ -158,6 +171,7 @@ export class UserResolver {
     console.log('UserResolver::addUser', newUser);
 
     const hashedPassword = await hash(newUser.password, GEN_SALT_ROUNDS);
+    console.log('hashedPassword', hashedPassword);
 
     await User.insert({
       ...newUser,

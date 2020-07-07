@@ -1,5 +1,5 @@
-import Link from 'next/link'
-import Layout from '../components/Layout'
+import Link from 'next/link';
+import Layout from '../components/Layout';
 // import { useUsersQuery } from '../generated/graphql'
 
 export default function Index() {
@@ -30,7 +30,7 @@ export default function Index() {
         ))} */}
       </div>
     </Layout>
-  )
+  );
 }
 
 const IndexPage = () => (
@@ -42,6 +42,6 @@ const IndexPage = () => (
       </Link>
     </p>
   </Layout>
-)
+);
 
 // export default IndexPage

@@ -12,8 +12,8 @@ async function main() {
     user.firstName = 'Timber';
     user.lastName = 'Saw';
     user.email = 'timber@example.com';
-    user.password = await hash('admin', 10)
-    user.role = USER_ROLE.ADMIN
+    user.password = await hash('admin', 10);
+    user.role = USER_ROLE.ADMIN;
 
     await user.save();
 

@@ -1,18 +1,33 @@
-import React from 'react'
-import Link from 'next/link'
+import React from 'react';
+import Link from 'next/link';
 
-import { User } from '../interfaces'
+import { DataTypeFromQuery } from 'client/types';
+import { UsersQuery, ReviewQuery } from 'generated/graphql';
 
-type Props = {
-  data: User
-}
+type UserProps = {
+  item: DataTypeFromQuery<UsersQuery['users']>[0];
+  prefix?: string
+};
 
-const ListItem = ({ data }: Props) => (
-  <Link href="/users/[id]" as={`/users/${data.id}`}>
+export const UserListItem = ({ item, prefix = '' }: UserProps) => (
+  <Link href={`${prefix}/users/[id]`} as={`${prefix}/users/${item.id}`}>
     <a>
-      {data.id}: {data.name}
+      {item.id}: {item.firstName} {item.firstName}
     </a>
   </Link>
-)
+);
 
-export default ListItem
+type ReviewProps = {
+  item: DataTypeFromQuery<ReviewQuery['reviews']>[0];
+  prefix?: string
+};
+
+export const ReviewListItem = ({ item, prefix = '' }: ReviewProps) => (
+  <Link href={`${prefix}/reviews/[id]`} as={`${prefix}/reviews/${item.id}`}>
+    <a>
+      Review of {item.reviewee.email} by {item.reviewer.email}
+    </a>
+  </Link>
+);
+
+

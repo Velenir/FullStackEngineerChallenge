@@ -8,7 +8,7 @@ export const isRole: (role: USER_ROLE) => MiddlewareFn<GQLContext> = (
 ) => async ({ context }, next) => {
   const id = context.payload!.userId;
 
-  const user = await User.findOne({ id: +id });
+  const user = await User.findOne({ id });
 
   if (user?.role !== role) throw new Error('Access denied');
 

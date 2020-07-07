@@ -17,7 +17,20 @@ export type Query = {
   hello: Scalars['String'];
   me?: Maybe<User>;
   users: Array<User>;
+  user?: Maybe<User>;
   reviews: Array<Review>;
+  myReviews: Array<Review>;
+  review?: Maybe<Review>;
+};
+
+
+export type QueryUserArgs = {
+  userId: Scalars['Int'];
+};
+
+
+export type QueryReviewArgs = {
+  reviewId: Scalars['Int'];
 };
 
 export type User = {
@@ -46,8 +59,9 @@ export type Mutation = {
   updateUser: Array<User>;
   addUser: Array<User>;
   deleteUser: Array<User>;
+  deleteReview: Array<Review>;
   requestReview: Array<Review>;
-  completeReview: Review;
+  completeReview: Array<Review>;
 };
 
 
@@ -74,6 +88,11 @@ export type MutationAddUserArgs = {
 
 export type MutationDeleteUserArgs = {
   userId: Scalars['Int'];
+};
+
+
+export type MutationDeleteReviewArgs = {
+  reviewId: Scalars['Int'];
 };
 
 
@@ -139,6 +158,19 @@ export type UsersQuery = (
   )> }
 );
 
+export type OneUserQueryVariables = Exact<{
+  userId: Scalars['Int'];
+}>;
+
+
+export type OneUserQuery = (
+  { __typename?: 'Query' }
+  & { user?: Maybe<(
+    { __typename?: 'User' }
+    & Pick<User, 'id' | 'email' | 'firstName' | 'lastName' | 'role'>
+  )> }
+);
+
 export type AddUserMutationVariables = Exact<{
   newUser: AddUserRequest;
 }>;
@@ -188,10 +220,68 @@ export type ReviewQuery = (
     & Pick<Review, 'id' | 'text' | 'completed'>
     & { reviewer: (
       { __typename?: 'User' }
-      & Pick<User, 'email' | 'id'>
+      & Pick<User, 'email' | 'id' | 'firstName' | 'lastName' | 'role'>
     ), reviewee: (
       { __typename?: 'User' }
-      & Pick<User, 'email' | 'id'>
+      & Pick<User, 'email' | 'id' | 'firstName' | 'lastName' | 'role'>
+    ) }
+  )> }
+);
+
+export type MyReviewsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type MyReviewsQuery = (
+  { __typename?: 'Query' }
+  & { myReviews: Array<(
+    { __typename?: 'Review' }
+    & Pick<Review, 'id' | 'text' | 'completed'>
+    & { reviewer: (
+      { __typename?: 'User' }
+      & Pick<User, 'email' | 'id' | 'firstName' | 'lastName' | 'role'>
+    ), reviewee: (
+      { __typename?: 'User' }
+      & Pick<User, 'email' | 'id' | 'firstName' | 'lastName' | 'role'>
+    ) }
+  )> }
+);
+
+export type OneReviewQueryVariables = Exact<{
+  reviewId: Scalars['Int'];
+}>;
+
+
+export type OneReviewQuery = (
+  { __typename?: 'Query' }
+  & { review?: Maybe<(
+    { __typename?: 'Review' }
+    & Pick<Review, 'id' | 'text' | 'completed'>
+    & { reviewer: (
+      { __typename?: 'User' }
+      & Pick<User, 'email' | 'id' | 'firstName' | 'lastName' | 'role'>
+    ), reviewee: (
+      { __typename?: 'User' }
+      & Pick<User, 'email' | 'id' | 'firstName' | 'lastName' | 'role'>
+    ) }
+  )> }
+);
+
+export type DeleteReviewMutationVariables = Exact<{
+  reviewId: Scalars['Int'];
+}>;
+
+
+export type DeleteReviewMutation = (
+  { __typename?: 'Mutation' }
+  & { deleteReview: Array<(
+    { __typename?: 'Review' }
+    & Pick<Review, 'id' | 'text' | 'completed'>
+    & { reviewer: (
+      { __typename?: 'User' }
+      & Pick<User, 'email' | 'id' | 'firstName' | 'lastName' | 'role'>
+    ), reviewee: (
+      { __typename?: 'User' }
+      & Pick<User, 'email' | 'id' | 'firstName' | 'lastName' | 'role'>
     ) }
   )> }
 );
@@ -208,10 +298,10 @@ export type RequestReviewMutation = (
     & Pick<Review, 'id' | 'text' | 'completed'>
     & { reviewer: (
       { __typename?: 'User' }
-      & Pick<User, 'email' | 'id'>
+      & Pick<User, 'email' | 'id' | 'firstName' | 'lastName' | 'role'>
     ), reviewee: (
       { __typename?: 'User' }
-      & Pick<User, 'email' | 'id'>
+      & Pick<User, 'email' | 'id' | 'firstName' | 'lastName' | 'role'>
     ) }
   )> }
 );
@@ -223,17 +313,17 @@ export type CompleteReviewMutationVariables = Exact<{
 
 export type CompleteReviewMutation = (
   { __typename?: 'Mutation' }
-  & { completeReview: (
+  & { completeReview: Array<(
     { __typename?: 'Review' }
     & Pick<Review, 'id' | 'text' | 'completed'>
     & { reviewer: (
       { __typename?: 'User' }
-      & Pick<User, 'email' | 'id'>
+      & Pick<User, 'email' | 'id' | 'firstName' | 'lastName' | 'role'>
     ), reviewee: (
       { __typename?: 'User' }
-      & Pick<User, 'email' | 'id'>
+      & Pick<User, 'email' | 'id' | 'firstName' | 'lastName' | 'role'>
     ) }
-  ) }
+  )> }
 );
 
 export type LoginMutationVariables = Exact<{
@@ -335,6 +425,43 @@ export function useUsersLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOp
 export type UsersQueryHookResult = ReturnType<typeof useUsersQuery>;
 export type UsersLazyQueryHookResult = ReturnType<typeof useUsersLazyQuery>;
 export type UsersQueryResult = ApolloReactCommon.QueryResult<UsersQuery, UsersQueryVariables>;
+export const OneUserDocument = gql`
+    query OneUser($userId: Int!) {
+  user(userId: $userId) {
+    id
+    email
+    firstName
+    lastName
+    role
+  }
+}
+    `;
+
+/**
+ * __useOneUserQuery__
+ *
+ * To run a query within a React component, call `useOneUserQuery` and pass it any options that fit your needs.
+ * When your component renders, `useOneUserQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useOneUserQuery({
+ *   variables: {
+ *      userId: // value for 'userId'
+ *   },
+ * });
+ */
+export function useOneUserQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<OneUserQuery, OneUserQueryVariables>) {
+        return ApolloReactHooks.useQuery<OneUserQuery, OneUserQueryVariables>(OneUserDocument, baseOptions);
+      }
+export function useOneUserLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<OneUserQuery, OneUserQueryVariables>) {
+          return ApolloReactHooks.useLazyQuery<OneUserQuery, OneUserQueryVariables>(OneUserDocument, baseOptions);
+        }
+export type OneUserQueryHookResult = ReturnType<typeof useOneUserQuery>;
+export type OneUserLazyQueryHookResult = ReturnType<typeof useOneUserLazyQuery>;
+export type OneUserQueryResult = ApolloReactCommon.QueryResult<OneUserQuery, OneUserQueryVariables>;
 export const AddUserDocument = gql`
     mutation AddUser($newUser: AddUserRequest!) {
   addUser(newUser: $newUser) {
@@ -450,10 +577,16 @@ export const ReviewDocument = gql`
     reviewer {
       email
       id
+      firstName
+      lastName
+      role
     }
     reviewee {
       email
       id
+      firstName
+      lastName
+      role
     }
     text
     completed
@@ -485,6 +618,151 @@ export function useReviewLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookO
 export type ReviewQueryHookResult = ReturnType<typeof useReviewQuery>;
 export type ReviewLazyQueryHookResult = ReturnType<typeof useReviewLazyQuery>;
 export type ReviewQueryResult = ApolloReactCommon.QueryResult<ReviewQuery, ReviewQueryVariables>;
+export const MyReviewsDocument = gql`
+    query MyReviews {
+  myReviews {
+    id
+    reviewer {
+      email
+      id
+      firstName
+      lastName
+      role
+    }
+    reviewee {
+      email
+      id
+      firstName
+      lastName
+      role
+    }
+    text
+    completed
+  }
+}
+    `;
+
+/**
+ * __useMyReviewsQuery__
+ *
+ * To run a query within a React component, call `useMyReviewsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useMyReviewsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useMyReviewsQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useMyReviewsQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<MyReviewsQuery, MyReviewsQueryVariables>) {
+        return ApolloReactHooks.useQuery<MyReviewsQuery, MyReviewsQueryVariables>(MyReviewsDocument, baseOptions);
+      }
+export function useMyReviewsLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<MyReviewsQuery, MyReviewsQueryVariables>) {
+          return ApolloReactHooks.useLazyQuery<MyReviewsQuery, MyReviewsQueryVariables>(MyReviewsDocument, baseOptions);
+        }
+export type MyReviewsQueryHookResult = ReturnType<typeof useMyReviewsQuery>;
+export type MyReviewsLazyQueryHookResult = ReturnType<typeof useMyReviewsLazyQuery>;
+export type MyReviewsQueryResult = ApolloReactCommon.QueryResult<MyReviewsQuery, MyReviewsQueryVariables>;
+export const OneReviewDocument = gql`
+    query OneReview($reviewId: Int!) {
+  review(reviewId: $reviewId) {
+    id
+    reviewer {
+      email
+      id
+      firstName
+      lastName
+      role
+    }
+    reviewee {
+      email
+      id
+      firstName
+      lastName
+      role
+    }
+    text
+    completed
+  }
+}
+    `;
+
+/**
+ * __useOneReviewQuery__
+ *
+ * To run a query within a React component, call `useOneReviewQuery` and pass it any options that fit your needs.
+ * When your component renders, `useOneReviewQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useOneReviewQuery({
+ *   variables: {
+ *      reviewId: // value for 'reviewId'
+ *   },
+ * });
+ */
+export function useOneReviewQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<OneReviewQuery, OneReviewQueryVariables>) {
+        return ApolloReactHooks.useQuery<OneReviewQuery, OneReviewQueryVariables>(OneReviewDocument, baseOptions);
+      }
+export function useOneReviewLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<OneReviewQuery, OneReviewQueryVariables>) {
+          return ApolloReactHooks.useLazyQuery<OneReviewQuery, OneReviewQueryVariables>(OneReviewDocument, baseOptions);
+        }
+export type OneReviewQueryHookResult = ReturnType<typeof useOneReviewQuery>;
+export type OneReviewLazyQueryHookResult = ReturnType<typeof useOneReviewLazyQuery>;
+export type OneReviewQueryResult = ApolloReactCommon.QueryResult<OneReviewQuery, OneReviewQueryVariables>;
+export const DeleteReviewDocument = gql`
+    mutation DeleteReview($reviewId: Int!) {
+  deleteReview(reviewId: $reviewId) {
+    id
+    reviewer {
+      email
+      id
+      firstName
+      lastName
+      role
+    }
+    reviewee {
+      email
+      id
+      firstName
+      lastName
+      role
+    }
+    text
+    completed
+  }
+}
+    `;
+export type DeleteReviewMutationFn = ApolloReactCommon.MutationFunction<DeleteReviewMutation, DeleteReviewMutationVariables>;
+
+/**
+ * __useDeleteReviewMutation__
+ *
+ * To run a mutation, you first call `useDeleteReviewMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteReviewMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteReviewMutation, { data, loading, error }] = useDeleteReviewMutation({
+ *   variables: {
+ *      reviewId: // value for 'reviewId'
+ *   },
+ * });
+ */
+export function useDeleteReviewMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<DeleteReviewMutation, DeleteReviewMutationVariables>) {
+        return ApolloReactHooks.useMutation<DeleteReviewMutation, DeleteReviewMutationVariables>(DeleteReviewDocument, baseOptions);
+      }
+export type DeleteReviewMutationHookResult = ReturnType<typeof useDeleteReviewMutation>;
+export type DeleteReviewMutationResult = ApolloReactCommon.MutationResult<DeleteReviewMutation>;
+export type DeleteReviewMutationOptions = ApolloReactCommon.BaseMutationOptions<DeleteReviewMutation, DeleteReviewMutationVariables>;
 export const RequestReviewDocument = gql`
     mutation RequestReview($newReview: AddReviewRequest!) {
   requestReview(newReview: $newReview) {
@@ -492,10 +770,16 @@ export const RequestReviewDocument = gql`
     reviewer {
       email
       id
+      firstName
+      lastName
+      role
     }
     reviewee {
       email
       id
+      firstName
+      lastName
+      role
     }
     text
     completed
@@ -534,10 +818,16 @@ export const CompleteReviewDocument = gql`
     reviewer {
       email
       id
+      firstName
+      lastName
+      role
     }
     reviewee {
       email
       id
+      firstName
+      lastName
+      role
     }
     text
     completed

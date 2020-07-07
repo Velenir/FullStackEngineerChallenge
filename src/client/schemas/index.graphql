@@ -15,6 +15,12 @@ query Users {
   }
 }
 
+query OneUser($userId: Int!) {
+  user(userId: $userId) {
+    id, email, firstName, lastName, role    
+  }
+}
+
 mutation AddUser($newUser: AddUserRequest!) {
   addUser (newUser: $newUser) {
     id, email, firstName, lastName, role
@@ -36,8 +42,38 @@ mutation DeleteUser($userId: Int!) {
 query Review {
   reviews {
     id
-    reviewer {email id}
-    reviewee {email id}
+    reviewer {email id firstName lastName role}
+    reviewee {email id firstName lastName role}
+    text
+    completed
+  }
+}
+
+query MyReviews {
+  myReviews {
+    id
+    reviewer {email id firstName lastName role}
+    reviewee {email id firstName lastName role}
+    text
+    completed
+  }
+}
+
+query OneReview($reviewId: Int!) {
+  review(reviewId: $reviewId) {
+    id
+    reviewer {email id firstName lastName role}
+    reviewee {email id firstName lastName role}
+    text
+    completed   
+  }
+}
+
+mutation DeleteReview($reviewId: Int!) {
+  deleteReview(reviewId: $reviewId) {
+    id
+    reviewer {email id firstName lastName role}
+    reviewee {email id firstName lastName role}
     text
     completed
   }
@@ -46,8 +82,8 @@ query Review {
 mutation RequestReview($newReview: AddReviewRequest!) {
   requestReview(newReview: $newReview) {
     id
-    reviewer {email id}
-    reviewee {email id}
+    reviewer {email id firstName lastName role}
+    reviewee {email id firstName lastName role}
     text
     completed
   }
@@ -56,8 +92,8 @@ mutation RequestReview($newReview: AddReviewRequest!) {
 mutation CompleteReview($review: CompleteReview!) {
   completeReview(review: $review) {
     id
-    reviewer {email id}
-    reviewee {email id}
+    reviewer {email id firstName lastName role}
+    reviewee {email id firstName lastName role}
     text
     completed
   }
