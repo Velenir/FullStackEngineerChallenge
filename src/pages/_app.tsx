@@ -8,20 +8,27 @@ export default function App({ Component, pageProps }: AppProps) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    let mounted = true;
     fetch('/api/refresh_token', {
       method: 'POST',
       credentials: 'include',
     })
       .then(async (res) => {
         const { accessToken } = await res.json();
+        if (!mounted) return;
 
         setAccessToken(accessToken);
         setLoading(false);
       })
       .catch((error) => {
         console.error(error);
+        if (!mounted) return;
         setLoading(false);
       });
+
+    return () => {
+      mounted = false;
+    };
   }, []);
 
   const apolloClient = useApollo(pageProps.initialApolloState);

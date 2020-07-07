@@ -13,7 +13,7 @@ interface ReviewsBatch {
 }
 
 const ReviewsPage = () => {
-  const { data } = useMyReviewsQuery({ fetchPolicy: 'cache-first' });
+  const { data, error } = useMyReviewsQuery({ fetchPolicy: 'cache-first' });
 
   const { user } = useAuth();
 
@@ -49,6 +49,8 @@ const ReviewsPage = () => {
       }
     );
   }, [data?.myReviews]);
+
+  if (error) return <p>{error.message}</p>;
 
   if (!data?.myReviews) return null;
 

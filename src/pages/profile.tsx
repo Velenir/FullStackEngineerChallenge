@@ -4,9 +4,10 @@ import Layout from 'components/Layout';
 // import { USER_ROLE } from "server/consts"
 
 const ProfilePage = () => {
-  const { data } = useMeQuery();
+  const { data, error } = useMeQuery({ fetchPolicy: 'cache-first' });
 
-  if (!data?.me) return null;
+  if (error) return <p>{error.message}</p>;
+  if (!data?.me) return <p>Login first</p>;
 
   const { me } = data;
 

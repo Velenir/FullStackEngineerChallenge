@@ -35,7 +35,7 @@ const Layout = ({
   children,
   title = 'This is the default title',
 }: LayoutProps) => {
-  const { data, error } = useMeQuery();
+  const { data, error } = useMeQuery({ fetchPolicy: 'cache-first' });
   const [logout, { client }] = useLogoutMutation();
 
   const router = useRouter();
@@ -43,11 +43,11 @@ const Layout = ({
   if (error) return <p>{error.message}</p>;
 
   const onLogout = async () => {
-    await logout();
     setAccessToken('');
+    router.push('/');
+    await logout();
 
     await client?.resetStore();
-    router.push('/');
   };
 
   return (
@@ -93,6 +93,10 @@ const Layout = ({
             grid-area: header;
             display: flex;
             align-items: center;
+          }
+
+          header > * {
+            margin-right: 0.5em;
           }
 
           nav {
