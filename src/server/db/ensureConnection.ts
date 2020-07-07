@@ -17,6 +17,7 @@ function entitiesChanged(prevEntities: any[], newEntities: any[]): boolean {
   return false;
 }
 
+// replace entities (TABLES, etc.) if changed
 async function updateConnectionEntities(
   connection: Connection,
   entities: any[]
@@ -34,6 +35,8 @@ async function updateConnectionEntities(
   }
 }
 
+// must be called in every api endpoint on every requests
+// otherwise on Hot-Module-Reload entities don't match and connection doesn't work
 export async function ensureConnection(name = 'default'): Promise<Connection> {
   const connectionManager = getConnectionManager();
 

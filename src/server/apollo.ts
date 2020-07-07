@@ -6,12 +6,14 @@ import { UserResolver, ReviewResolver } from 'server/db/resolvers';
 let apolloServer: ApolloServer;
 
 export const createApolloServer = async () => {
+  // builds typesafe GQL schema
   const schema = await buildSchema({
     resolvers: [UserResolver, ReviewResolver],
   });
 
   const server = new ApolloServer({
     schema,
+    // context is available inside resolvers
     context: ({ req, res }) => ({
       req,
       res,
@@ -22,6 +24,6 @@ export const createApolloServer = async () => {
 };
 
 export const getApolloServer = async () => {
-  //  don;t recreate on each api request
+  //  don't recreate on each api request
   return apolloServer || (apolloServer = await createApolloServer());
 };

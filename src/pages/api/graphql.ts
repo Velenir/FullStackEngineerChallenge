@@ -10,16 +10,17 @@ export const config = {
   },
 };
 const cors = Cors({
-  // allowMethods: ["POST", "OPTIONS"],
   origin: '*',
 });
 
+// don't recreate handler between requests
 let cachedHandler: NextApiHandler | null = null;
 
 const getHandler = async (): Promise<NextApiHandler> => {
   if (cachedHandler) {
     return cachedHandler;
   }
+  // apollo server is cached inside
   const apolloServer = await getApolloServer();
 
   return (cachedHandler = cors(
@@ -28,7 +29,7 @@ const getHandler = async (): Promise<NextApiHandler> => {
 };
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
-  await ensureConnection();
+  await ensureConnection(); // for Tyeorm + HMR
   const handler = await getHandler();
   return handler(req, res);
 };

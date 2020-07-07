@@ -1,4 +1,6 @@
-// from https://github.com/vercel/next.js/blob/canary/examples/with-apollo-and-redux
+// copy-pasta from https://github.com/vercel/next.js/blob/canary/examples/with-apollo-and-redux
+// made as such to cache ApolloClient clien-side
+// and recreate server-side (in getStatic|ServerSideProps for SSR, SSG)
 
 import { useMemo } from 'react';
 import { getAccessToken, setAccessToken } from './utils/accessToken';
@@ -25,7 +27,7 @@ function createApolloClient() {
             if (accessToken) {
               operation.setContext({
                 headers: {
-                  authorization: `bearer ${accessToken}`,
+                  authorization: `bearer ${accessToken}`, // incuded on every GQL request
                 },
               });
             }
@@ -45,6 +47,8 @@ function createApolloClient() {
       })
   );
 
+  //  requests a new accessToken when old one expires
+  // relies on refreshToken included in a cookie
   const tokenRefreshLink = new TokenRefreshLink({
     accessTokenField: 'accessToken',
     isTokenValidOrUndefined: () => {
@@ -69,7 +73,7 @@ function createApolloClient() {
       return fetch('/api/refresh_token', {
         method: 'POST',
         credentials: 'include',
-      });
+      }); // will return a new accessToken if given refreshToken in a cookie
     },
     handleFetch: (accessToken: string) => {
       setAccessToken(accessToken);
@@ -94,6 +98,9 @@ function createApolloClient() {
       }),
     ]),
     cache,
+    //  some reasonable defaults for ease of development
+    // an improvement would be to setup better caching policy
+    // with help of getServerSideProps for cache hydration
     defaultOptions: {
       watchQuery: {
         fetchPolicy: 'cache-and-network',
@@ -128,6 +135,7 @@ export function initializeApollo(initialState = null) {
   return _apolloClient;
 }
 
+// initialState can come from getServerSideProps
 export function useApollo(initialState: any) {
   const store = useMemo(() => initializeApollo(initialState), [initialState]);
   return store;

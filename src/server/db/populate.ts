@@ -5,6 +5,7 @@ import { DEFAULT_CONNECTION } from './connectionOptions';
 import { USER_ROLE } from '../consts';
 import { hash } from 'bcryptjs';
 
+//  run as `yarn populate` to pre-fill database
 async function main() {
   try {
     await createConnection(DEFAULT_CONNECTION);

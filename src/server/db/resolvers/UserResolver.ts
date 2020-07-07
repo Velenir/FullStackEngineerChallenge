@@ -68,11 +68,7 @@ class UpdateUserRequest {
 
 @Resolver()
 export class UserResolver {
-  @Query(() => String)
-  hello() {
-    return 'hi!';
-  }
-
+  // data of currently logged user if any
   @Query(() => User, { nullable: true })
   async me(@Ctx() ctx: GQLContext): Promise<User | null> {
     // bearer <token>
@@ -94,6 +90,8 @@ export class UserResolver {
 
   @Mutation(() => Boolean)
   async revokeRefreshTokensForUser(@Arg('userId', () => Int) userId: number) {
+    // allows to revoke sessions
+    // can be usefulin logout and when doing `log my other devices` functionality
     await User.getRepository().increment({ id: userId }, 'tokenVersion', 1);
 
     return true;
@@ -106,6 +104,7 @@ export class UserResolver {
     @Ctx() ctx: GQLContext
   ): Promise<LoginResponse> {
     const user = await User.findOne({ where: { email } });
+    //  same error every time so a potential attacker doen't get tipped on what data is incorrect
     if (!user) throw new Error('invalid login or password');
 
     const correctPass = await compare(password, user.password);
@@ -115,6 +114,7 @@ export class UserResolver {
 
     const refreshToken = createRefreshToken(user);
 
+    // refresh token in httpOnly cookie
     setRefreshCookie(ctx, refreshToken);
 
     const accessToken = createAccessToken(user);
@@ -127,6 +127,7 @@ export class UserResolver {
 
   @Mutation(() => Boolean)
   async logout(@Ctx() ctx: GQLContext) {
+    // clear refresh token in cookie
     setRefreshCookie(ctx, '');
 
     return true;
@@ -154,6 +155,7 @@ export class UserResolver {
     const { user_id, password, ...userData } = updatedUser;
 
     if (password) {
+      // little hack not to deal with types or new objects
       (userData as Omit<UpdateUserRequest, 'user_id'>).password = await hash(
         password,
         GEN_SALT_ROUNDS
@@ -170,6 +172,7 @@ export class UserResolver {
   async addUser(@Arg('newUser') newUser: AddUserRequest): Promise<User[]> {
     console.log('UserResolver::addUser', newUser);
 
+    // same procedure in update and add users
     const hashedPassword = await hash(newUser.password, GEN_SALT_ROUNDS);
     console.log('hashedPassword', hashedPassword);
 
@@ -186,7 +189,7 @@ export class UserResolver {
   async deleteUser(@Arg('userId', () => Int) userId: number): Promise<User[]> {
     console.log('UserResolver::deleteUser', userId);
 
-    await User.delete(userId);
+    await User.delete(userId); // this cascade-deletes reviews of and by this user
 
     return User.find();
   }

@@ -15,6 +15,7 @@ import { GQLContext } from 'server/types';
 import { isRole } from '../middlewares/isRole';
 import { USER_ROLE } from 'server/consts';
 
+// GQL InputType
 @InputType()
 class AddReviewRequest {
   @Field(() => Int)
@@ -24,6 +25,7 @@ class AddReviewRequest {
   reviewee_id: number;
 }
 
+// GQL InputType
 @InputType()
 class CompleteReview {
   @Field()
@@ -36,7 +38,7 @@ class CompleteReview {
 @Resolver()
 export class ReviewResolver {
   @Query(() => [Review])
-  @UseMiddleware(isAuth, isRole(USER_ROLE.ADMIN))
+  @UseMiddleware(isAuth, isRole(USER_ROLE.ADMIN)) // only admins
   async reviews(): Promise<Review[]> {
     const reviews = await Review.find();
     console.log('reviews', reviews);
@@ -81,10 +83,12 @@ export class ReviewResolver {
   ): Promise<Review[]> {
     console.log('ReviewResolver::requestReview', newReview);
 
+    // check that we don't allow same user for reviewee and reviewer
     if (newReview.reviewee_id === newReview.reviewer_id) {
       throw new Error("User can't review themselves");
     }
 
+    // would normally Promise.all, but this reads better
     const reviewee = await User.findOneOrFail(newReview.reviewee_id);
     const reviewer = await User.findOneOrFail(newReview.reviewer_id);
 
@@ -92,6 +96,7 @@ export class ReviewResolver {
       where: { reviewee, reviewer },
     });
 
+    // no next review while one is already pending
     if (previousReview && !previousReview.completed) {
       throw new Error("There's already an ongoing review");
     }
@@ -102,13 +107,14 @@ export class ReviewResolver {
 
     await review.save();
 
+    // return all reviews to easier update frontend
     const reviews = await Review.find();
 
     return reviews;
   }
 
   @Mutation(() => [Review])
-  @UseMiddleware(isAuth)
+  @UseMiddleware(isAuth) // only logge-n users allowed
   async completeReview(
     @Arg('review') completedReview: CompleteReview,
     @Ctx() ctx: GQLContext
@@ -119,6 +125,8 @@ export class ReviewResolver {
 
     const review = await Review.findOneOrFail(review_id);
 
+    // shouldn't happen with our frontend
+    // but check anyway that doing assigned reviews
     if (review.reviewer.id !== ctx.payload?.userId) {
       throw new Error("UserId doesn't match reviewer_id");
     }

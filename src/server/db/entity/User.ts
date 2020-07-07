@@ -10,6 +10,7 @@ import { ObjectType, Field, Int } from 'type-graphql';
 import { Length } from 'class-validator';
 import { USER_ROLE } from '../../consts';
 
+// TABLE users
 @ObjectType()
 @Entity('users')
 export class User extends BaseEntity {
@@ -46,6 +47,7 @@ export class User extends BaseEntity {
   role: USER_ROLE;
 }
 
+// TABLE reviews
 @ObjectType()
 @Entity('reviews')
 export class Review extends BaseEntity {
@@ -59,11 +61,11 @@ export class Review extends BaseEntity {
   text?: string;
 
   @Field()
-  @ManyToOne(() => User, { eager: true, onDelete: 'CASCADE' })
+  @ManyToOne(() => User, { eager: true, onDelete: 'CASCADE' }) // when user delete, delete review
   reviewer: User;
 
   @Field()
-  @ManyToOne(() => User, { eager: true, onDelete: 'CASCADE' })
+  @ManyToOne(() => User, { eager: true, onDelete: 'CASCADE' }) // when user delete, delete review
   reviewee: User;
 
   @Field()

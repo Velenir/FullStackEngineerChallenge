@@ -1,4 +1,5 @@
 import { MyReviewsQuery, MeQuery } from 'generated/graphql';
+// some utility types
 
 export type DataTypeFromQuery<T> = Omit<
   Exclude<T, null | undefined>,

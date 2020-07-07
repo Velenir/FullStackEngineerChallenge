@@ -3,6 +3,7 @@ import { useEffect } from 'react';
 import { USER_ROLE } from 'server/consts';
 import { useMeQuery } from 'generated/graphql';
 
+// wrapper around MeQuery with some useful props
 export const useAuth = () => {
   const { data, loading, error } = useMeQuery();
 
