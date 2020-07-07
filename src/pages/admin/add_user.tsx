@@ -22,7 +22,7 @@ const AddUsers = () => {
   if (!isAdmin) return <p>Access denied</p>;
 
   const onSubmit = async (data: AddUserData) => {
-    await addUser({
+    const { errors } = await addUser({
       variables: { newUser: data },
       update: (cache, { data }) => {
         if (!data) return;
@@ -36,7 +36,7 @@ const AddUsers = () => {
       },
     });
 
-    router.push('/admin/users');
+    if (!errors) router.push('/admin/users');
   };
 
   return (

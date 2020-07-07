@@ -14,7 +14,7 @@ import { User } from '../entity/User';
 import { GQLContext } from 'server/types';
 import { isAuth } from '../middlewares/isAuth';
 import { isRole } from '../middlewares/isRole';
-import { USER_ROLE } from 'server/consts';
+import { USER_ROLE, GEN_SALT_ROUNDS } from 'server/consts';
 import { hash, compare } from 'bcryptjs';
 import {
   setRefreshCookie,
@@ -22,8 +22,6 @@ import {
   createRefreshToken,
   verifyAccessToken,
 } from 'server/utils/tokens';
-
-const GEN_SALT_ROUNDS = 10;
 
 @ObjectType()
 class LoginResponse {

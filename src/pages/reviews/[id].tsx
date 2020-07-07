@@ -32,7 +32,7 @@ const ReviewDetailsPage = () => {
   const onCompleteReview = async (data: SubmitReviewData) => {
     if (review.completed) return;
 
-    await completeReview({
+    const { errors } = await completeReview({
       variables: { review: { review_id: reviewId, text: data.text } },
       update: (cache, { data }) => {
         if (!data) return;
@@ -46,7 +46,7 @@ const ReviewDetailsPage = () => {
       },
     });
 
-    router.push('/reviews');
+    if (!errors) router.push('/reviews');
   };
 
   return (

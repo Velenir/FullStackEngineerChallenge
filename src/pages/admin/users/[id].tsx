@@ -36,7 +36,7 @@ const UserDetailsPage = () => {
 
   const onEditUser = () => setEditing((ed) => !ed);
   const onDeleteUser = async () => {
-    await deleteUser({
+    const { errors } = await deleteUser({
       variables: { userId },
       update: (cache, { data }) => {
         if (!data) return;
@@ -50,7 +50,7 @@ const UserDetailsPage = () => {
       },
     });
 
-    router.push('/admin/users');
+    if (!errors) router.push('/admin/users');
   };
 
   const onUpdateUser = async (data: AddUserData) => {

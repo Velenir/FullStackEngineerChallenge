@@ -18,7 +18,7 @@ const RequestReviewPage = () => {
   const onRequestReview = async (data: RequestReviewData) => {
     const reviewee_id = +data.reviewee_id;
     const reviewer_id = +data.reviewer_id;
-    await requestReview({
+    const { errors } = await requestReview({
       variables: { newReview: { reviewee_id, reviewer_id } },
       update: (cache, { data }) => {
         if (!data) return;
@@ -32,7 +32,7 @@ const RequestReviewPage = () => {
       },
     });
 
-    router.push('/admin/reviews');
+    if (!errors) router.push('/admin/reviews');
   };
 
   return (

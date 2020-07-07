@@ -32,7 +32,7 @@ const ReviewDetailsPage = () => {
   const title = `Review for ${reviewee.firstName} ${reviewee.lastName} by ${reviewer.firstName} ${reviewer.lastName} details`;
 
   const onDeleteReview = async () => {
-    await deleteReview({
+    const { errors } = await deleteReview({
       variables: { reviewId },
       update: (cache, { data }) => {
         if (!data) return;
@@ -46,13 +46,13 @@ const ReviewDetailsPage = () => {
       },
     });
 
-    router.push('/admin/reviews');
+    if (!errors) router.push('/admin/reviews');
   };
 
   const onRequestAgain = async () => {
     if (!review.completed) return;
 
-    await requestReview({
+    const { errors } = await requestReview({
       variables: {
         newReview: { reviewee_id: reviewee.id, reviewer_id: reviewer.id },
       },
@@ -68,7 +68,7 @@ const ReviewDetailsPage = () => {
       },
     });
 
-    router.push('/admin/reviews');
+    if (!errors) router.push('/admin/reviews');
   };
 
   return (
