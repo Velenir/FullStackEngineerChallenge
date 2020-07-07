@@ -41,7 +41,6 @@ export class ReviewResolver {
   @UseMiddleware(isAuth, isRole(USER_ROLE.ADMIN)) // only admins
   async reviews(): Promise<Review[]> {
     const reviews = await Review.find();
-    console.log('reviews', reviews);
     return reviews;
   }
 
@@ -69,8 +68,6 @@ export class ReviewResolver {
   async deleteReview(
     @Arg('reviewId', () => Int) reviewId: number
   ): Promise<Review[]> {
-    console.log('ReviewResolver::deleteReview', reviewId);
-
     await Review.delete(reviewId);
 
     return Review.find();
@@ -81,8 +78,6 @@ export class ReviewResolver {
   async requestReview(
     @Arg('newReview') newReview: AddReviewRequest
   ): Promise<Review[]> {
-    console.log('ReviewResolver::requestReview', newReview);
-
     // check that we don't allow same user for reviewee and reviewer
     if (newReview.reviewee_id === newReview.reviewer_id) {
       throw new Error("User can't review themselves");
@@ -119,8 +114,6 @@ export class ReviewResolver {
     @Arg('review') completedReview: CompleteReview,
     @Ctx() ctx: GQLContext
   ): Promise<Review[]> {
-    console.log('ReviewResolver::completeReview', completedReview);
-
     const { text, review_id } = completedReview;
 
     const review = await Review.findOneOrFail(review_id);

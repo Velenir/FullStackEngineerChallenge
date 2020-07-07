@@ -18,7 +18,7 @@ export const isAuth: MiddlewareFn<GQLContext> = ({ context }, next) => {
     // make available in resolvers on context
     context.payload = payload;
   } catch (error) {
-    console.log(error);
+    console.error(error);
     throw new Error('Not authorized');
   }
 

@@ -39,10 +39,6 @@ export const RequestReviewForm: React.FC<RequestReviewFormProps> = ({
 
   if (!data?.users) return null;
 
-  console.log('revieweeId', revieweeId);
-  console.log('users', data.users);
-  console.log('reviewers', reviewers);
-
   return (
     <Form onSubmit={handleSubmit(onSubmit)}>
       <label>

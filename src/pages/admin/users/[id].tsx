@@ -59,13 +59,11 @@ const UserDetailsPage = () => {
     await updateUser({
       variables: { updatedUser },
       update: (cache, { data }) => {
-        console.log('updatedUser', data);
         if (!data) return;
 
         const currentUpdatedUser = data.updateUser.find(
           (user) => user.id === userId
         );
-        console.log('currentUpdatedUser', currentUpdatedUser);
 
         cache.writeQuery<UsersQuery>({
           query: UsersDocument,

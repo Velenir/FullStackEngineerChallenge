@@ -35,7 +35,6 @@ const ReviewDetailsPage = () => {
     await deleteReview({
       variables: { reviewId },
       update: (cache, { data }) => {
-        console.log('data', data);
         if (!data) return;
 
         cache.writeQuery<ReviewQuery>({

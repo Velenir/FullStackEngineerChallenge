@@ -16,13 +16,11 @@ const RequestReviewPage = () => {
   const router = useRouter();
 
   const onRequestReview = async (data: RequestReviewData) => {
-    console.log('data', data);
     const reviewee_id = +data.reviewee_id;
     const reviewer_id = +data.reviewer_id;
     await requestReview({
       variables: { newReview: { reviewee_id, reviewer_id } },
       update: (cache, { data }) => {
-        console.log('new Reviews data', data);
         if (!data) return;
 
         cache.writeQuery<ReviewQuery>({

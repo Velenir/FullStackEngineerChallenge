@@ -108,7 +108,6 @@ export class UserResolver {
     if (!user) throw new Error('invalid login or password');
 
     const correctPass = await compare(password, user.password);
-    console.log('correctPass', correctPass);
 
     if (!correctPass) throw new Error('invalid login or password');
 
@@ -150,8 +149,6 @@ export class UserResolver {
   async updateUser(
     @Arg('updatedUser') updatedUser: UpdateUserRequest
   ): Promise<User[]> {
-    console.log('UserResolver::updateUser', updatedUser);
-
     const { user_id, password, ...userData } = updatedUser;
 
     if (password) {
@@ -170,11 +167,8 @@ export class UserResolver {
   @Mutation(() => [User])
   @UseMiddleware(isAuth, isRole(USER_ROLE.ADMIN))
   async addUser(@Arg('newUser') newUser: AddUserRequest): Promise<User[]> {
-    console.log('UserResolver::addUser', newUser);
-
     // same procedure in update and add users
     const hashedPassword = await hash(newUser.password, GEN_SALT_ROUNDS);
-    console.log('hashedPassword', hashedPassword);
 
     await User.insert({
       ...newUser,
@@ -187,8 +181,6 @@ export class UserResolver {
   @Mutation(() => [User])
   @UseMiddleware(isAuth, isRole(USER_ROLE.ADMIN))
   async deleteUser(@Arg('userId', () => Int) userId: number): Promise<User[]> {
-    console.log('UserResolver::deleteUser', userId);
-
     await User.delete(userId); // this cascade-deletes reviews of and by this user
 
     return User.find();

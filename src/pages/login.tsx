@@ -10,8 +10,6 @@ const Login = () => {
   const router = useRouter();
 
   const onSubmit = async (data: LoginData) => {
-    console.log(data);
-
     const response = await loginUser({
       variables: data,
       update: (cache, { data }) => {
@@ -25,7 +23,6 @@ const Login = () => {
         });
       },
     });
-    console.log('response', response.data);
     if (response && response.data) {
       setAccessToken(response.data?.login.accessToken);
 

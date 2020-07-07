@@ -24,7 +24,6 @@ export default function App({ Component, pageProps }: AppProps) {
       });
   }, []);
 
-  console.log('pageProps', pageProps);
   const apolloClient = useApollo(pageProps.initialApolloState);
 
   if (loading) return null;

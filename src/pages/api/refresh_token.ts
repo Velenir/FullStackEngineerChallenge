@@ -29,7 +29,6 @@ export const handler: NextApiHandler = async (
 ) => {
   await ensureConnection(); // for Tyeorm + HMR
 
-  console.log('req', req.headers, req.cookies);
   const refreshToken = req.cookies.wuid;
 
   // checks if we have cookie with refresh token
@@ -38,8 +37,6 @@ export const handler: NextApiHandler = async (
   try {
     // checks if we indeed signed the token
     const { userId, tokenVersion } = verifyRefreshToken(refreshToken);
-    const allUsers = await User.find();
-    console.log('allUsers', allUsers);
 
     const user = await User.findOne({ id: userId });
 

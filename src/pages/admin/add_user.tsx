@@ -22,8 +22,6 @@ const AddUsers = () => {
   if (!isAdmin) return <p>Access denied</p>;
 
   const onSubmit = async (data: AddUserData) => {
-    console.log('AddUserData', data);
-
     await addUser({
       variables: { newUser: data },
       update: (cache, { data }) => {

@@ -35,7 +35,6 @@ const ReviewDetailsPage = () => {
     await completeReview({
       variables: { review: { review_id: reviewId, text: data.text } },
       update: (cache, { data }) => {
-        console.log('data', data);
         if (!data) return;
 
         cache.writeQuery<MyReviewsQuery>({
